@@ -11,14 +11,14 @@ local LocalPlayer = Players.LocalPlayer
 -- Cargar Fluent UI Library
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
--- Create Window
+-- Create Window con tema oscuro
 local Window = Fluent:CreateWindow({
     Title = "Lizz Hub",
     SubTitle = "",
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
     Acrylic = true,
-    Theme = "Rose",
+    Theme = "Darker", -- Cambiado a tema oscuro
     MinimizeKey = Enum.KeyCode.LeftControl
 })
 
@@ -30,6 +30,16 @@ local Tabs = {
     Forge = Window:AddTab({ Title = "Forge", Icon = "hammer" }),
     Help = Window:AddTab({ Title = "Help", Icon = "help-circle" })
 }
+
+-- Función para cerrar la interfaz
+local function CloseHub()
+    if Window then
+        pcall(function()
+            Window:Destroy()
+        end)
+    end
+    getgenv().LizzHubLoaded = false
+end
 
 -- HOME TAB
 Tabs.Home:AddParagraph({
@@ -73,6 +83,8 @@ Tabs.MM2:AddButton({
         task.spawn(function()
             task.wait(0.5)
             loadstring(game:HttpGet('https://raw.githubusercontent.com/renardofficiel/game/refs/heads/main/loader.lua', true))()
+            task.wait(0.3)
+            CloseHub() -- Cierra la interfaz después de cargar
         end)
     end
 })
@@ -95,6 +107,8 @@ Tabs.Garden:AddButton({
         task.spawn(function()
             task.wait(0.5)
             loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
+            task.wait(0.3)
+            CloseHub() -- Cierra la interfaz después de cargar
         end)
     end
 })
@@ -117,6 +131,8 @@ Tabs.Forge:AddButton({
         task.spawn(function()
             task.wait(0.5)
             loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
+            task.wait(0.3)
+            CloseHub() -- Cierra la interfaz después de cargar
         end)
     end
 })
@@ -152,11 +168,5 @@ Tabs.Help:AddButton({
 
 -- Seleccionar la primera tab por defecto
 Window:SelectTab(1)
-
--- Agregar botón flotante para móvil
-Fluent:CreateToggleButton({
-    Title = "Lizz Hub",
-    Position = UDim2.new(0, 10, 0.5, -25)
-})
 
 print("Lizz Hub Loaded")
