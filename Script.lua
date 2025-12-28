@@ -8,12 +8,8 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
-print("Iniciando Lizz Hub...")
-
 -- Load Rayfield (LA MÁS USADA EN MM2)
 local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
-
-print("Rayfield cargado!")
 
 -- Create Window
 local Window = Rayfield:CreateWindow({
@@ -32,8 +28,6 @@ local Window = Rayfield:CreateWindow({
    },
    KeySystem = false
 })
-
-print("Ventana creada!")
 
 -- HOME TAB
 local HomeTab = Window:CreateTab("Home", 4483362458)
