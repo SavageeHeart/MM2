@@ -8,118 +8,182 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
--- Load Rayfield (más compatible que WindUI)
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+-- Load LinoriaLib (compatible móvil y PC)
+local repo = 'https://raw.githubusercontent.com/violin-suzutsuki/LinoriaLib/main/'
+local Library = loadstring(game:HttpGet(repo .. 'Library.lua'))()
+local ThemeManager = loadstring(game:HttpGet(repo .. 'addons/ThemeManager.lua'))()
 
 -- Create Window
-local Window = Rayfield:CreateWindow({
-   Name = "Lizz Hub",
-   LoadingTitle = "Lizz Hub",
-   LoadingSubtitle = "Loading",
-   ConfigurationSaving = {
-      Enabled = true,
-      FolderName = "LizzHub",
-      FileName = "LizzHub"
-   },
-   Discord = {
-      Enabled = false
-   },
-   KeySystem = false,
-   Theme = "DarkBlue" -- Tema más cercano a morado en Rayfield
+local Window = Library:CreateWindow({
+    Title = 'Lizz Hub',
+    Center = true,
+    AutoShow = true,
+    TabPadding = 8,
+    MenuFadeTime = 0.2
 })
 
--- Notify
-Rayfield:Notify({
-   Title = "Lizz Hub",
-   Content = "Loading...",
-   Duration = 3,
-   Image = "heart"
+-- Notificación
+Library:Notify('Lizz Hub loaded successfully!', 3)
+
+-- Create Tabs
+local Tabs = {
+    Home = Window:AddTab('Home'),
+    MM2 = Window:AddTab('MM2'),
+    Garden = Window:AddTab('Garden'),
+    Forge = Window:AddTab('Forge'),
+    Help = Window:AddTab('Help'),
+    ['UI Settings'] = Window:AddTab('UI Settings')
+}
+
+-- ==================== HOME TAB ====================
+local HomeGroup = Tabs.Home:AddLeftGroupbox('Welcome to Lizz Hub')
+
+HomeGroup:AddLabel('Lizz Hub')
+HomeGroup:AddLabel('This Universal Script Hub provides safe,')
+HomeGroup:AddLabel('stable, and optimized scripts for')
+HomeGroup:AddLabel('multiple popular Roblox games.')
+HomeGroup:AddLabel('')
+HomeGroup:AddLabel('TikTok: SavageeHeart')
+
+local UserGroup = Tabs.Home:AddRightGroupbox('User Info')
+UserGroup:AddLabel('Current user: ' .. LocalPlayer.Name)
+UserGroup:AddLabel('Status: Connected')
+UserGroup:AddDivider()
+UserGroup:AddButton({
+    Text = 'Follow on TikTok',
+    Func = function()
+        setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
+        Library:Notify('TikTok link copied to clipboard!', 3)
+    end,
+    DoubleClick = false
 })
 
--- HOME TAB
-local HomeTab = Window:CreateTab("Home", "home")
-local HomeSection = HomeTab:CreateSection("Welcome to Lizz Hub")
+-- ==================== MM2 TAB ====================
+local MM2Group = Tabs.MM2:AddLeftGroupbox('Murder Mystery 2')
 
-HomeTab:CreateParagraph({Title = "Lizz Hub", Content = "This Universal Script Hub provides safe, stable, and optimized scripts for multiple popular Roblox games.\n\nTikTok: SavageeHeart"})
+MM2Group:AddLabel('Select a script to load for MM2')
+MM2Group:AddDivider()
 
-HomeTab:CreateParagraph({Title = "User Info", Content = "Current user: " .. LocalPlayer.Name .. "\nStatus: Connected"})
-
-HomeTab:CreateButton({
-   Name = "Follow on TikTok",
-   Callback = function()
-      setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-      Rayfield:Notify({
-         Title = "TikTok",
-         Content = "Link copied to clipboard!",
-         Duration = 3
-      })
-   end,
+MM2Group:AddButton({
+    Text = 'Capybara Hub',
+    Func = function()
+        Library:Notify('Loading Capybara Hub...', 2)
+        task.spawn(function()
+            task.wait(0.5)
+            loadstring(game:HttpGet("https://pastebin.com/raw/3Pvr5Pfy"))()
+        end)
+    end,
+    DoubleClick = false,
+    Tooltip = 'Silent Aim/Knife, ESP'
 })
 
--- MM2 TAB
-local MM2Tab = Window:CreateTab("MM2", "swords")
-local MM2Section = MM2Tab:CreateSection("Murder Mystery 2")
-
-MM2Tab:CreateButton({
-   Name = "Capybara Hub",
-   Callback = function()
-      Rayfield:Notify({Title = "Loading", Content = "Capybara Hub...", Duration = 2})
-      loadstring(game:HttpGet("https://pastebin.com/raw/3Pvr5Pfy"))()
-   end,
+MM2Group:AddButton({
+    Text = 'Overdrive Hub',
+    Func = function()
+        Library:Notify('Loading Overdrive Hub...', 2)
+        task.spawn(function()
+            task.wait(0.5)
+            loadstring(game:HttpGet("https://api.overdrivehub.xyz/v1/auth"))()
+        end)
+    end,
+    DoubleClick = false,
+    Tooltip = 'Silent Aim/Knife, ESP'
 })
 
-MM2Tab:CreateButton({
-   Name = "Overdrive Hub",
-   Callback = function()
-      Rayfield:Notify({Title = "Loading", Content = "Overdrive Hub...", Duration = 2})
-      loadstring(game:HttpGet("https://api.overdrivehub.xyz/v1/auth"))()
-   end,
+-- ==================== GARDEN TAB ====================
+local GardenGroup = Tabs.Garden:AddLeftGroupbox('Grow a Garden')
+
+GardenGroup:AddLabel('Automation features for farming')
+GardenGroup:AddDivider()
+
+GardenGroup:AddButton({
+    Text = 'Soluna Script',
+    Func = function()
+        Library:Notify('Loading Soluna Script...', 2)
+        task.spawn(function()
+            task.wait(0.5)
+            loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
+        end)
+    end,
+    DoubleClick = false,
+    Tooltip = 'Automation features'
 })
 
--- GARDEN TAB
-local GardenTab = Window:CreateTab("Garden", "sprout")
-local GardenSection = GardenTab:CreateSection("Grow a Garden")
+-- ==================== FORGE TAB ====================
+local ForgeGroup = Tabs.Forge:AddLeftGroupbox('The Forge')
 
-GardenTab:CreateButton({
-   Name = "Soluna Script",
-   Callback = function()
-      Rayfield:Notify({Title = "Loading", Content = "Soluna Script...", Duration = 2})
-      loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
-   end,
+ForgeGroup:AddLabel('Quest automation and farming')
+ForgeGroup:AddDivider()
+
+ForgeGroup:AddButton({
+    Text = 'Chiyo Forge',
+    Func = function()
+        Library:Notify('Loading Chiyo Forge...', 2)
+        task.spawn(function()
+            task.wait(0.5)
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
+        end)
+    end,
+    DoubleClick = false,
+    Tooltip = 'Quest Automation, Auto Forge, Auto Sell'
 })
 
--- FORGE TAB
-local ForgeTab = Window:CreateTab("Forge", "pickaxe")
-local ForgeSection = ForgeTab:CreateSection("The Forge")
+-- ==================== HELP TAB ====================
+local HelpGroup1 = Tabs.Help:AddLeftGroupbox('Need Help?')
+HelpGroup1:AddLabel('If you experience issues with any')
+HelpGroup1:AddLabel('script or the hub, make sure:')
+HelpGroup1:AddLabel('')
+HelpGroup1:AddLabel('• Your exploit is up to date')
+HelpGroup1:AddLabel('• You run the hub only once')
+HelpGroup1:AddLabel('')
+HelpGroup1:AddLabel('Most issues happen when a game')
+HelpGroup1:AddLabel('gets updated.')
 
-ForgeTab:CreateButton({
-   Name = "Chiyo Forge",
-   Callback = function()
-      Rayfield:Notify({Title = "Loading", Content = "Chiyo Forge...", Duration = 2})
-      loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
-   end,
+local HelpGroup2 = Tabs.Help:AddRightGroupbox('Support & Suggestions')
+HelpGroup2:AddLabel('Want us to add more games or scripts?')
+HelpGroup2:AddLabel('')
+HelpGroup2:AddLabel('• Report broken scripts')
+HelpGroup2:AddLabel('• Share your own scripts')
+HelpGroup2:AddLabel('')
+HelpGroup2:AddLabel('Your feedback helps improve Lizz Hub.')
+
+local CommunityGroup = Tabs.Help:AddLeftGroupbox('Community')
+CommunityGroup:AddLabel('Follow us on TikTok for:')
+CommunityGroup:AddLabel('• Updates and news')
+CommunityGroup:AddLabel('• Giveaways and events')
+CommunityGroup:AddDivider()
+CommunityGroup:AddButton({
+    Text = 'Follow on TikTok',
+    Func = function()
+        setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
+        Library:Notify('TikTok link copied to clipboard!', 3)
+    end,
+    DoubleClick = false
 })
 
--- HELP TAB
-local HelpTab = Window:CreateTab("Help", "heart")
-local HelpSection = HelpTab:CreateSection("Support & Help")
+-- ==================== UI SETTINGS ====================
+ThemeManager:SetLibrary(Library)
+ThemeManager:SetFolder('LizzHub')
+ThemeManager:ApplyToTab(Tabs['UI Settings'])
 
-HelpTab:CreateParagraph({Title = "Need Help?", Content = "If you experience issues with any script or the hub, make sure:\n\n• Your exploit is up to date\n• You run the hub only once per session\n\nMost issues happen when a game gets updated."})
+-- Set default theme to purple
+ThemeManager:SetTheme('Purple')
 
-HelpTab:CreateParagraph({Title = "Support & Suggestions", Content = "Want us to add more games or scripts?\n\n• Report broken scripts\n• Share your own scripts\n\nYour feedback helps improve Lizz Hub."})
-
-HelpTab:CreateParagraph({Title = "Community", Content = "Follow us on TikTok for:\n• Updates and news\n• Giveaways and events"})
-
-HelpTab:CreateButton({
-   Name = "Follow on TikTok",
-   Callback = function()
-      setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-      Rayfield:Notify({
-         Title = "TikTok",
-         Content = "Link copied to clipboard!",
-         Duration = 3
-      })
-   end,
+-- UI Controls
+local MenuGroup = Tabs['UI Settings']:AddLeftGroupbox('Menu')
+MenuGroup:AddButton({
+    Text = 'Unload',
+    Func = function()
+        Library:Unload()
+    end
 })
+
+MenuGroup:AddLabel('Menu bind'):AddKeyPicker('MenuKeybind', {
+    Default = 'End',
+    NoUI = true,
+    Text = 'Menu keybind'
+})
+
+Library.ToggleKeybind = Options.MenuKeybind
 
 print("Lizz Hub Loaded")
