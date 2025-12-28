@@ -69,12 +69,12 @@ task.spawn(function()
     task.wait(0.1)
     loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
     
-    -- Cargar WindUI Library (con su sistema de key integrado)
+    -- Cargar WindUI Library con sistema de key
     local Wind = loadstring(game:HttpGet(
         "https://raw.githubusercontent.com/Footagessus/WindUI/main/main.lua"
     ))()
     
-    -- ========== CREAR INTERFAZ PRINCIPAL ========== --
+    -- ========== CREAR INTERFAZ PRINCIPAL CON KEY SYSTEM ========== --
     local Window = Wind:CreateWindow({
         Title = "Lizz Hub",
         Icon = "rbxassetid://10734950020",
@@ -84,7 +84,10 @@ task.spawn(function()
         Transparent = true,
         Theme = "Dark",
         SideBarWidth = 170,
-        KeySystem = false, -- Desactivar el sistema de key de WindUI
+        KeySystem = true,
+        Key = "Lizz",
+        KeyLink = "https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS",
+        KeyNote = "Follow TikTok to get the key!"
     })
     
     -- Función para cerrar la interfaz
