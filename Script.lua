@@ -143,9 +143,8 @@ task.spawn(function()
                 Duration = 2
             })
             task.spawn(function()
-                task.wait(0.5)
                 loadstring(game:HttpGet('https://raw.githubusercontent.com/renardofficiel/game/refs/heads/main/loader.lua', true))()
-                task.wait(0.3)
+                task.wait(1)
                 CloseHub()
             end)
         end
@@ -167,9 +166,8 @@ task.spawn(function()
                 Duration = 2
             })
             task.spawn(function()
-                task.wait(0.5)
                 loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
-                task.wait(0.3)
+                task.wait(1)
                 CloseHub()
             end)
         end
@@ -191,9 +189,8 @@ task.spawn(function()
                 Duration = 2
             })
             task.spawn(function()
-                task.wait(0.5)
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
-                task.wait(0.3)
+                task.wait(1)
                 CloseHub()
             end)
         end
