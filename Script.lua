@@ -26,6 +26,21 @@ local Window = Rayfield:CreateWindow({
    Theme = "DarkBlue"
 })
 
+-- Ocultar el texto TAB
+task.spawn(function()
+   task.wait(0.5)
+   pcall(function()
+      local gui = game:GetService("CoreGui"):FindFirstChild("Rayfield")
+      if gui then
+         for _, v in pairs(gui:GetDescendants()) do
+            if v:IsA("TextLabel") and v.Text == "TAB" then
+               v.Visible = false
+            end
+         end
+      end
+   end)
+end)
+
 -- Notificación
 Rayfield:Notify({
    Title = "Lizz Hub",
