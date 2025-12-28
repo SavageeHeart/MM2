@@ -43,7 +43,7 @@ Title.BackgroundTransparency = 1
 Title.Position = UDim2.new(0, 0, 0, 30)
 Title.Size = UDim2.new(1, 0, 0, 50)
 Title.Font = Enum.Font.GothamBold
-Title.Text = "Lizz HUB"
+Title.Text = "LIZZ HUB"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 32
 
