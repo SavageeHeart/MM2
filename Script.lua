@@ -22,6 +22,43 @@ local Window = Fluent:CreateWindow({
     MinimizeKey = nil -- Sin tecla, solo botón
 })
 
+-- Conectar botón flotante con Fluent
+local isMinimized = false
+
+-- Detectar cuando Fluent se minimiza
+task.spawn(function()
+    while task.wait(0.1) do
+        pcall(function()
+            local fluentGui = game:GetService("CoreGui"):FindFirstChild("Fluent")
+            if fluentGui then
+                local mainFrame = fluentGui:FindFirstChild("Main", true)
+                if mainFrame and mainFrame.Visible == false and not isMinimized then
+                    isMinimized = true
+                    FloatingGui.Enabled = true
+                elseif mainFrame and mainFrame.Visible == true and isMinimized then
+                    isMinimized = false
+                    FloatingGui.Enabled = false
+                end
+            end
+        end)
+    end
+end)
+
+-- Función para maximizar al hacer click en el botón flotante
+FloatingButton.MouseButton1Click:Connect(function()
+    pcall(function()
+        local fluentGui = game:GetService("CoreGui"):FindFirstChild("Fluent")
+        if fluentGui then
+            local mainFrame = fluentGui:FindFirstChild("Main", true)
+            if mainFrame then
+                mainFrame.Visible = true
+                FloatingGui.Enabled = false
+                isMinimized = false
+            end
+        end
+    end)
+end)
+
 -- Crear Tabs
 local Tabs = {
     Home = Window:AddTab({ Title = "Home", Icon = "home" }),
