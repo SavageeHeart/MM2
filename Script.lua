@@ -8,232 +8,128 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
--- Load Fluent UI (el más limpio y estético)
-local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
+-- Load Rayfield (funciona perfecto para minimizar)
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
--- Create Window con configuración mejorada
-local Window = Fluent:CreateWindow({
-    Title = "Lizz Hub",
-    SubTitle = "",
-    TabWidth = 160,
-    Size = UDim2.fromOffset(580, 460),
-    Acrylic = true,
-    Theme = "Amethyst",
-    MinimizeKey = nil,
-    TabPadding = 0,
-    TabSize = UDim2.fromOffset(160, 0),
-    Tabs = {
-        AutoShow = false
-    }
+-- Create Window
+local Window = Rayfield:CreateWindow({
+   Name = "Lizz Hub",
+   LoadingTitle = "Lizz Hub",
+   LoadingSubtitle = "Loading",
+   ConfigurationSaving = {
+      Enabled = false
+   },
+   Discord = {
+      Enabled = false
+   },
+   KeySystem = false,
+   Theme = "DarkBlue"
 })
-
--- Conectar botón flotante con Fluent
-local isMinimized = false
-
--- Detectar cuando Fluent se minimiza y ELIMINAR botones innecesarios
-task.spawn(function()
-    task.wait(1) -- Esperar a que cargue completamente
-    while task.wait(0.1) do
-        pcall(function()
-            local fluentGui = game:GetService("CoreGui"):FindFirstChild("Fluent")
-            if fluentGui then
-                -- ELIMINAR todos los botones excepto el de minimizar
-                for _, desc in pairs(fluentGui:GetDescendants()) do
-                    if desc:IsA("ImageButton") or desc:IsA("TextButton") then
-                        if desc.Parent and desc.Parent.Name == "Actions" then
-                            if desc.LayoutOrder ~= 2 then -- Si NO es el botón de minimizar
-                                desc:Destroy() -- ELIMINAR permanentemente
-                            end
-                        end
-                    end
-                end
-                
-                local mainFrame = fluentGui:FindFirstChild("Main", true)
-                if mainFrame and mainFrame.Visible == false and not isMinimized then
-                    isMinimized = true
-                    FloatingGui.Enabled = true
-                elseif mainFrame and mainFrame.Visible == true and isMinimized then
-                    isMinimized = false
-                    FloatingGui.Enabled = false
-                end
-            end
-        end)
-    end
-end)
-
--- Función para maximizar al hacer click en el botón flotante
-FloatingButton.MouseButton1Click:Connect(function()
-    pcall(function()
-        local fluentGui = game:GetService("CoreGui"):FindFirstChild("Fluent")
-        if fluentGui then
-            local mainFrame = fluentGui:FindFirstChild("Main", true)
-            if mainFrame then
-                mainFrame.Visible = true
-                FloatingGui.Enabled = false
-                isMinimized = false
-            end
-        end
-    end)
-end)
-
--- Crear Tabs
-local Tabs = {
-    Home = Window:AddTab({ Title = "Home", Icon = "home" }),
-    MM2 = Window:AddTab({ Title = "MM2", Icon = "shield" }),
-    Garden = Window:AddTab({ Title = "Garden", Icon = "flower" }),
-    Forge = Window:AddTab({ Title = "Forge", Icon = "hammer" }),
-    Help = Window:AddTab({ Title = "Help", Icon = "info" }),
-    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
-}
 
 -- Notificación
-Fluent:Notify({
-    Title = "Lizz Hub",
-    Content = "Loaded successfully",
-    Duration = 3
+Rayfield:Notify({
+   Title = "Lizz Hub",
+   Content = "Loaded successfully",
+   Duration = 3,
+   Image = "heart"
 })
 
--- ==================== HOME TAB ====================
-Tabs.Home:AddParagraph({
-    Title = "Lizz Hub",
-    Content = "This Universal Script Hub provides safe, stable, and optimized scripts for multiple popular Roblox games.\n\nTikTok: SavageeHeart"
+-- HOME TAB
+local HomeTab = Window:CreateTab("Home", "home")
+local HomeSection = HomeTab:CreateSection("Welcome to Lizz Hub")
+
+HomeTab:CreateParagraph({Title = "Lizz Hub", Content = "This Universal Script Hub provides safe, stable, and optimized scripts for multiple popular Roblox games.\n\nTikTok: SavageeHeart"})
+
+HomeTab:CreateParagraph({Title = "User Info", Content = "Current user: " .. LocalPlayer.Name .. "\nStatus: Connected"})
+
+HomeTab:CreateButton({
+   Name = "Follow on TikTok",
+   Callback = function()
+      setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
+      Rayfield:Notify({
+         Title = "TikTok",
+         Content = "Link copied to clipboard",
+         Duration = 3
+      })
+   end,
 })
 
-Tabs.Home:AddParagraph({
-    Title = "User Info",
-    Content = "Current user: " .. LocalPlayer.Name .. "\nStatus: Connected"
+-- MM2 TAB
+local MM2Tab = Window:CreateTab("MM2", "swords")
+local MM2Section = MM2Tab:CreateSection("Murder Mystery 2")
+
+MM2Tab:CreateButton({
+   Name = "Capybara Hub",
+   Callback = function()
+      Rayfield:Notify({Title = "Loading", Content = "Loading Capybara Hub", Duration = 2})
+      task.spawn(function()
+         task.wait(0.5)
+         loadstring(game:HttpGet("https://pastebin.com/raw/3Pvr5Pfy"))()
+      end)
+   end,
 })
 
-Tabs.Home:AddButton({
-    Title = "Follow on TikTok",
-    Description = "Copy TikTok link",
-    Callback = function()
-        setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-        Fluent:Notify({
-            Title = "TikTok",
-            Content = "Link copied to clipboard",
-            Duration = 3
-        })
-    end
+MM2Tab:CreateButton({
+   Name = "Overdrive Hub",
+   Callback = function()
+      Rayfield:Notify({Title = "Loading", Content = "Loading Overdrive Hub", Duration = 2})
+      task.spawn(function()
+         task.wait(0.5)
+         loadstring(game:HttpGet("https://api.overdrivehub.xyz/v1/auth"))()
+      end)
+   end,
 })
 
--- ==================== MM2 TAB ====================
-Tabs.MM2:AddParagraph({
-    Title = "Murder Mystery 2",
-    Content = "Select a script to load for MM2"
+-- GARDEN TAB
+local GardenTab = Window:CreateTab("Garden", "sprout")
+local GardenSection = GardenTab:CreateSection("Grow a Garden")
+
+GardenTab:CreateButton({
+   Name = "Soluna Script",
+   Callback = function()
+      Rayfield:Notify({Title = "Loading", Content = "Loading Soluna Script", Duration = 2})
+      task.spawn(function()
+         task.wait(0.5)
+         loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
+      end)
+   end,
 })
 
-Tabs.MM2:AddButton({
-    Title = "Capybara Hub",
-    Description = "Silent Aim/Knife, ESP",
-    Callback = function()
-        Fluent:Notify({
-            Title = "Loading",
-            Content = "Loading Capybara Hub",
-            Duration = 2
-        })
-        task.spawn(function()
-            task.wait(0.5)
-            loadstring(game:HttpGet("https://pastebin.com/raw/3Pvr5Pfy"))()
-        end)
-    end
+-- FORGE TAB
+local ForgeTab = Window:CreateTab("Forge", "pickaxe")
+local ForgeSection = ForgeTab:CreateSection("The Forge")
+
+ForgeTab:CreateButton({
+   Name = "Chiyo Forge",
+   Callback = function()
+      Rayfield:Notify({Title = "Loading", Content = "Loading Chiyo Forge", Duration = 2})
+      task.spawn(function()
+         task.wait(0.5)
+         loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
+      end)
+   end,
 })
 
-Tabs.MM2:AddButton({
-    Title = "Overdrive Hub",
-    Description = "Silent Aim/Knife, ESP",
-    Callback = function()
-        Fluent:Notify({
-            Title = "Loading",
-            Content = "Loading Overdrive Hub",
-            Duration = 2
-        })
-        task.spawn(function()
-            task.wait(0.5)
-            loadstring(game:HttpGet("https://api.overdrivehub.xyz/v1/auth"))()
-        end)
-    end
-})
+-- HELP TAB
+local HelpTab = Window:CreateTab("Help", "heart")
+local HelpSection = HelpTab:CreateSection("Support & Help")
 
--- ==================== GARDEN TAB ====================
-Tabs.Garden:AddParagraph({
-    Title = "Grow a Garden",
-    Content = "Automation features for farming"
-})
+HelpTab:CreateParagraph({Title = "Need Help?", Content = "If you experience issues with any script or the hub, make sure:\n\n• Your exploit is up to date\n• You run the hub only once per session\n\nMost issues happen when a game gets updated."})
 
-Tabs.Garden:AddButton({
-    Title = "Soluna Script",
-    Description = "Automation features",
-    Callback = function()
-        Fluent:Notify({
-            Title = "Loading",
-            Content = "Loading Soluna Script",
-            Duration = 2
-        })
-        task.spawn(function()
-            task.wait(0.5)
-            loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
-        end)
-    end
-})
+HelpTab:CreateParagraph({Title = "Support & Suggestions", Content = "Want us to add more games or scripts?\n\n• Report broken scripts\n• Share your own scripts\n\nYour feedback helps improve Lizz Hub."})
 
--- ==================== FORGE TAB ====================
-Tabs.Forge:AddParagraph({
-    Title = "The Forge",
-    Content = "Quest automation and farming"
-})
+HelpTab:CreateParagraph({Title = "Community", Content = "Follow us on TikTok for:\n• Updates and news\n• Giveaways and events"})
 
-Tabs.Forge:AddButton({
-    Title = "Chiyo Forge",
-    Description = "Quest Automation, Auto Forge, Auto Sell",
-    Callback = function()
-        Fluent:Notify({
-            Title = "Loading",
-            Content = "Loading Chiyo Forge",
-            Duration = 2
-        })
-        task.spawn(function()
-            task.wait(0.5)
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
-        end)
-    end
-})
-
--- ==================== HELP TAB ====================
-Tabs.Help:AddParagraph({
-    Title = "Need Help?",
-    Content = "If you experience issues with any script or the hub, make sure:\n\n• Your exploit is up to date\n• You run the hub only once per session\n\nMost issues happen when a game gets updated."
-})
-
-Tabs.Help:AddParagraph({
-    Title = "Support & Suggestions",
-    Content = "Want us to add more games or scripts?\n\n• Report broken scripts\n• Share your own scripts\n\nYour feedback helps improve Lizz Hub."
-})
-
-Tabs.Help:AddParagraph({
-    Title = "Community",
-    Content = "Follow us on TikTok for:\n• Updates and news\n• Giveaways and events"
-})
-
-Tabs.Help:AddButton({
-    Title = "Follow on TikTok",
-    Description = "Copy TikTok link",
-    Callback = function()
-        setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-        Fluent:Notify({
-            Title = "TikTok",
-            Content = "Link copied to clipboard",
-            Duration = 3
-        })
-    end
-})
-
--- ==================== SETTINGS TAB ====================
-local InterfaceSection = Tabs.Settings:AddSection("Interface")
-
-Tabs.Settings:AddParagraph({
-    Title = "UI Controls",
-    Content = "Click the X button to minimize\nClick the floating button to maximize\n\nYou can drag the UI to reposition it"
+HelpTab:CreateButton({
+   Name = "Follow on TikTok",
+   Callback = function()
+      setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
+      Rayfield:Notify({
+         Title = "TikTok",
+         Content = "Link copied to clipboard",
+         Duration = 3
+      })
+   end,
 })
 
 print("Lizz Hub Loaded")
