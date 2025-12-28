@@ -139,7 +139,7 @@ task.spawn(function()
         Callback = function()
             Fluent:Notify({
                 Title = "Loading",
-                Content = "Loading Lizz Script",
+                Content = "Loading Lizz Script...",
                 Duration = 2
             })
             task.spawn(function()
@@ -163,7 +163,7 @@ task.spawn(function()
         Callback = function()
             Fluent:Notify({
                 Title = "Loading",
-                Content = "Loading Lizz Script",
+                Content = "Loading Soluna Script...",
                 Duration = 2
             })
             task.spawn(function()
@@ -187,7 +187,7 @@ task.spawn(function()
         Callback = function()
             Fluent:Notify({
                 Title = "Loading",
-                Content = "Loading Lizz Script",
+                Content = "Loading Chiyo Forge...",
                 Duration = 2
             })
             task.spawn(function()
