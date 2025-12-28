@@ -1,3 +1,4 @@
+
 -- Anti doble ejecución
 if getgenv().LizzHubLoaded then return end
 getgenv().LizzHubLoaded = true
@@ -31,6 +32,21 @@ task.spawn(function()
         pcall(function()
             local fluentGui = game:GetService("CoreGui"):FindFirstChild("Fluent")
             if fluentGui then
+                -- Ocultar botones innecesarios (solo dejar minimizar)
+                local topbar = fluentGui:FindFirstChild("Main", true)
+                if topbar then
+                    for _, child in pairs(topbar:GetDescendants()) do
+                        if child:IsA("ImageButton") or child:IsA("TextButton") then
+                            -- Solo mantener el botón de minimizar visible
+                            if child.Name == "Minimize" or child.LayoutOrder == 2 then
+                                child.Visible = true
+                            else
+                                child.Visible = false
+                            end
+                        end
+                    end
+                end
+                
                 local mainFrame = fluentGui:FindFirstChild("Main", true)
                 if mainFrame and mainFrame.Visible == false and not isMinimized then
                     isMinimized = true
