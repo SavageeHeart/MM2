@@ -17,58 +17,8 @@ end
 _G.setclipboard = getgenv().setclipboard
 -- ============================================== --
 
--- ========== PANTALLA DE CARGA ========== --
-local LoadingScreen = Instance.new("ScreenGui")
-local LoadingFrame = Instance.new("Frame")
-local Title = Instance.new("TextLabel")
-local StatusText = Instance.new("TextLabel")
-
-LoadingScreen.Name = "LizzHubLoading"
-LoadingScreen.Parent = game.CoreGui
-LoadingScreen.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-
-LoadingFrame.Parent = LoadingScreen
-LoadingFrame.AnchorPoint = Vector2.new(0.5, 0.5)
-LoadingFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
-LoadingFrame.BorderSizePixel = 0
-LoadingFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
-LoadingFrame.Size = UDim2.new(0, 400, 0, 150)
-
-local Corner = Instance.new("UICorner")
-Corner.CornerRadius = UDim.new(0, 12)
-Corner.Parent = LoadingFrame
-
-Title.Parent = LoadingFrame
-Title.BackgroundTransparency = 1
-Title.Position = UDim2.new(0, 0, 0, 30)
-Title.Size = UDim2.new(1, 0, 0, 50)
-Title.Font = Enum.Font.GothamBold
-Title.Text = "LIZZ HUB"
-Title.TextColor3 = Color3.fromRGB(255, 255, 255)
-Title.TextSize = 32
-
-StatusText.Parent = LoadingFrame
-StatusText.BackgroundTransparency = 1
-StatusText.Position = UDim2.new(0, 0, 0, 90)
-StatusText.Size = UDim2.new(1, 0, 0, 30)
-StatusText.Font = Enum.Font.Gotham
-StatusText.Text = "Loading Lizz Hub..."
-StatusText.TextColor3 = Color3.fromRGB(200, 200, 200)
-StatusText.TextSize = 16
-
--- ========== CARGAR SCRIPT DUVANZIN ========== --
+-- ========== CARGAR WINDUI Y SCRIPT ========== --
 task.spawn(function()
-    task.wait(0.3)
-    
-    task.wait(1)
-    
-    -- Cerrar pantalla de carga primero
-    LoadingScreen:Destroy()
-    
-    -- Cargar el script de Duvanzin de forma invisible después de cerrar la pantalla
-    task.wait(0.1)
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
-    
     -- Cargar WindUI Library con sistema de key
     local Wind = loadstring(game:HttpGet(
         "https://raw.githubusercontent.com/Footagessus/WindUI/main/main.lua"
@@ -89,6 +39,10 @@ task.spawn(function()
         KeyLink = "https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS",
         KeyNote = "Follow TikTok to get the key!"
     })
+    
+    -- Ejecutar Duvanzin después de pasar el key system
+    task.wait(0.5)
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
     
     -- Función para cerrar la interfaz
     local function CloseHub()
