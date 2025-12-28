@@ -84,6 +84,7 @@ task.spawn(function()
         Transparent = true,
         Theme = "Dark",
         SideBarWidth = 170,
+        KeySystem = false, -- Desactivar el sistema de key de WindUI
     })
     
     -- Función para cerrar la interfaz
