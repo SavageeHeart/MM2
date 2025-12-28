@@ -12,13 +12,11 @@ local LocalPlayer = Players.LocalPlayer
 local Rayfield
 local success = false
 
--- Intento 1: Sirius
 pcall(function()
     Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
     success = true
 end)
 
--- Intento 2: GitHub oficial
 if not success then
     pcall(function()
         Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
@@ -26,7 +24,6 @@ if not success then
     end)
 end
 
--- Intento 3: Pastebin backup
 if not success then
     pcall(function()
         Rayfield = loadstring(game:HttpGet('https://pastebin.com/raw/XC3K6TdB'))()
@@ -37,7 +34,7 @@ end
 if not success or not Rayfield then
     game.StarterGui:SetCore("SendNotification", {
         Title = "Error",
-        Text = "Failed to load UI library. Try another executor.",
+        Text = "Failed to load UI library.",
         Duration = 5
     })
     return
@@ -47,7 +44,7 @@ end
 local Window = Rayfield:CreateWindow({
    Name = "Lizz Hub",
    LoadingTitle = "Lizz Hub",
-   LoadingSubtitle = "Loading",
+   LoadingSubtitle = "",
    ConfigurationSaving = {
       Enabled = false
    },
@@ -61,7 +58,7 @@ local Window = Rayfield:CreateWindow({
 local HomeTab = Window:CreateTab("Home", 4483362458)
 local HomeSection = HomeTab:CreateSection("Welcome to Lizz Hub")
 
-HomeTab:CreateParagraph({Title = "Lizz Hub", Content = "This Universal Script Hub provides safe, stable, and optimized scripts for multiple popular Roblox games.\n\nTikTok: SavageeHeart"})
+HomeTab:CreateParagraph({Title = "Lizz Hub", Content = "TikTok: SavageeHeart"})
 
 HomeTab:CreateParagraph({Title = "User Info", Content = "Current user: " .. LocalPlayer.Name .. "\nStatus: Connected"})
 
@@ -175,13 +172,6 @@ HelpTab:CreateButton({
          Image = 4483362458
       })
    end,
-})
-
-Rayfield:Notify({
-   Title = "Lizz Hub",
-   Content = "Loaded successfully!",
-   Duration = 3,
-   Image = 4483362458
 })
 
 print("Lizz Hub Loaded")
