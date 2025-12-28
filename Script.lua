@@ -61,7 +61,9 @@ task.spawn(function()
     task.wait(0.3)
     
     -- Cargar el script de Duvanzin
-    loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
+    pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
+    end)
     
     task.wait(1)
     
@@ -95,9 +97,10 @@ task.spawn(function()
     local function CloseHub()
         if Window then
             pcall(function()
-                Window:Minimize()
+                Window:Destroy()
             end)
         end
+        getgenv().LizzHubLoaded = false
     end
 
     -- HOME TAB
@@ -140,7 +143,14 @@ task.spawn(function()
                 Duration = 2
             })
             task.spawn(function()
+                -- Cargar el script directamente
                 loadstring(game:HttpGet('https://raw.githubusercontent.com/renardofficiel/game/refs/heads/main/loader.lua', true))()
+                
+                -- Esperar a que el script se inicialice
+                task.wait(2)
+                
+                -- Cerrar el hub
+                CloseHub()
             end)
         end
     })
@@ -162,7 +172,7 @@ task.spawn(function()
             })
             task.spawn(function()
                 loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
-                task.wait(2)
+                task.wait(1)
                 CloseHub()
             end)
         end
@@ -185,7 +195,7 @@ task.spawn(function()
             })
             task.spawn(function()
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
-                task.wait(2)
+                task.wait(1)
                 CloseHub()
             end)
         end
