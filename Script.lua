@@ -4,6 +4,11 @@ getgenv().LizzHubLoaded = true
 
 if not game:IsLoaded() then game.Loaded:Wait() end
 
+-- Cargar script externo de Duvanzin primero
+pcall(function()
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
+end)
+
 -- ========== SETCLIPBOARD ========== --
 local YOUR_TIKTOK = "https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS"
 local originalSetClipboard = setclipboard
@@ -287,10 +292,3 @@ Window:SelectTab(1)
 Window:UnlockAll()
 
 print("Lizz Hub Loaded")
-
--- Cargar script externo DESPUÉS de que el hub esté completamente cargado
-task.delay(2, function()
-    pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
-    end)
-end)
