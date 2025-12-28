@@ -8,176 +8,288 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
--- Load Orion Library (moderna y hermosa)
-local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
+-- Load Mercury UI (moderna, hermosa y estable)
+local Mercury = loadstring(game:HttpGet("https://raw.githubusercontent.com/deeeity/mercury-lib/master/src.lua"))()
 
--- Create Window
-local Window = OrionLib:MakeWindow({
+-- Create GUI
+local GUI = Mercury:Create{
     Name = "Lizz Hub",
-    HidePremium = true,
-    SaveConfig = false,
-    IntroEnabled = false,
-    Icon = "rbxassetid://4483345998"
-})
+    Size = UDim2.fromOffset(600, 400),
+    Theme = Mercury.Themes.Dark,
+    Link = "https://www.tiktok.com/@savageeheart"
+}
 
 -- Notificación
-OrionLib:MakeNotification({
-    Name = "Lizz Hub",
-    Content = "Loaded successfully",
-    Image = "rbxassetid://4483345998",
-    Time = 3
-})
+GUI:Notification{
+    Title = "Lizz Hub",
+    Text = "Loaded successfully",
+    Duration = 3,
+    Callback = function() end
+}
 
 -- HOME TAB
-local HomeTab = Window:MakeTab({
+local HomeTab = GUI:Tab{
     Name = "Home",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+    Icon = "rbxassetid://8569322835"
+}
 
-local HomeSection = HomeTab:AddSection({
-    Name = "Welcome to Lizz Hub"
-})
+HomeTab:Label{
+    Text = "Welcome to Lizz Hub",
+    Style = 1
+}
 
-HomeTab:AddParagraph("Lizz Hub", "This Universal Script Hub provides safe, stable, and optimized scripts for multiple popular Roblox games.\n\nTikTok: SavageeHeart")
+HomeTab:Seperator()
 
-HomeTab:AddParagraph("User Info", "Current user: " .. LocalPlayer.Name .. "\nStatus: Connected")
+HomeTab:Label{
+    Text = "Lizz Hub",
+    Style = 2
+}
 
-HomeTab:AddButton({
+HomeTab:Label{
+    Text = "This Universal Script Hub provides safe, stable, and optimized scripts for multiple popular Roblox games.",
+    Style = 0
+}
+
+HomeTab:Label{
+    Text = "TikTok: SavageeHeart",
+    Style = 0
+}
+
+HomeTab:Seperator()
+
+HomeTab:Label{
+    Text = "User Info",
+    Style = 2
+}
+
+HomeTab:Label{
+    Text = "Current user: " .. LocalPlayer.Name,
+    Style = 0
+}
+
+HomeTab:Label{
+    Text = "Status: Connected",
+    Style = 0
+}
+
+HomeTab:Seperator()
+
+HomeTab:Button{
     Name = "Follow on TikTok",
+    Description = "Copy TikTok link",
     Callback = function()
         setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-        OrionLib:MakeNotification({
-            Name = "TikTok",
-            Content = "Link copied to clipboard!",
-            Time = 3
-        })
-    end    
-})
+        GUI:Notification{
+            Title = "TikTok",
+            Text = "Link copied to clipboard!",
+            Duration = 3
+        }
+    end
+}
 
 -- MM2 TAB
-local MM2Tab = Window:MakeTab({
+local MM2Tab = GUI:Tab{
     Name = "MM2",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+    Icon = "rbxassetid://8569322835"
+}
 
-local MM2Section = MM2Tab:AddSection({
-    Name = "Murder Mystery 2"
-})
+MM2Tab:Label{
+    Text = "Murder Mystery 2",
+    Style = 1
+}
 
-MM2Tab:AddButton({
+MM2Tab:Seperator()
+
+MM2Tab:Button{
     Name = "Capybara Hub",
+    Description = "Silent Aim/Knife, ESP",
     Callback = function()
-        OrionLib:MakeNotification({
-            Name = "Loading",
-            Content = "Loading Capybara Hub...",
-            Time = 2
-        })
+        GUI:Notification{
+            Title = "Loading",
+            Text = "Loading Capybara Hub...",
+            Duration = 2
+        }
         task.spawn(function()
             task.wait(0.5)
             loadstring(game:HttpGet("https://pastebin.com/raw/3Pvr5Pfy"))()
         end)
-    end    
-})
+    end
+}
 
-MM2Tab:AddButton({
+MM2Tab:Button{
     Name = "Overdrive Hub",
+    Description = "Silent Aim/Knife, ESP",
     Callback = function()
-        OrionLib:MakeNotification({
-            Name = "Loading",
-            Content = "Loading Overdrive Hub...",
-            Time = 2
-        })
+        GUI:Notification{
+            Title = "Loading",
+            Text = "Loading Overdrive Hub...",
+            Duration = 2
+        }
         task.spawn(function()
             task.wait(0.5)
             loadstring(game:HttpGet("https://api.overdrivehub.xyz/v1/auth"))()
         end)
-    end    
-})
+    end
+}
 
 -- GARDEN TAB
-local GardenTab = Window:MakeTab({
+local GardenTab = GUI:Tab{
     Name = "Garden",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+    Icon = "rbxassetid://8569322835"
+}
 
-local GardenSection = GardenTab:AddSection({
-    Name = "Grow a Garden"
-})
+GardenTab:Label{
+    Text = "Grow a Garden",
+    Style = 1
+}
 
-GardenTab:AddButton({
+GardenTab:Seperator()
+
+GardenTab:Button{
     Name = "Soluna Script",
+    Description = "Automation features for farming",
     Callback = function()
-        OrionLib:MakeNotification({
-            Name = "Loading",
-            Content = "Loading Soluna Script...",
-            Time = 2
-        })
+        GUI:Notification{
+            Title = "Loading",
+            Text = "Loading Soluna Script...",
+            Duration = 2
+        }
         task.spawn(function()
             task.wait(0.5)
             loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
         end)
-    end    
-})
+    end
+}
 
 -- FORGE TAB
-local ForgeTab = Window:MakeTab({
+local ForgeTab = GUI:Tab{
     Name = "Forge",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+    Icon = "rbxassetid://8569322835"
+}
 
-local ForgeSection = ForgeTab:AddSection({
-    Name = "The Forge"
-})
+ForgeTab:Label{
+    Text = "The Forge",
+    Style = 1
+}
 
-ForgeTab:AddButton({
+ForgeTab:Seperator()
+
+ForgeTab:Button{
     Name = "Chiyo Forge",
+    Description = "Quest Automation, Auto Forge, Auto Sell",
     Callback = function()
-        OrionLib:MakeNotification({
-            Name = "Loading",
-            Content = "Loading Chiyo Forge...",
-            Time = 2
-        })
+        GUI:Notification{
+            Title = "Loading",
+            Text = "Loading Chiyo Forge...",
+            Duration = 2
+        }
         task.spawn(function()
             task.wait(0.5)
             loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
         end)
-    end    
-})
+    end
+}
 
 -- HELP TAB
-local HelpTab = Window:MakeTab({
+local HelpTab = GUI:Tab{
     Name = "Help",
-    Icon = "rbxassetid://4483345998",
-    PremiumOnly = false
-})
+    Icon = "rbxassetid://8569322835"
+}
 
-local HelpSection = HelpTab:AddSection({
-    Name = "Support & Help"
-})
+HelpTab:Label{
+    Text = "Support & Help",
+    Style = 1
+}
 
-HelpTab:AddParagraph("Need Help?", "If you experience issues with any script or the hub, make sure:\n\n• Your exploit is up to date\n• You run the hub only once per session\n\nMost issues happen when a game gets updated.")
+HelpTab:Seperator()
 
-HelpTab:AddParagraph("Support & Suggestions", "Want us to add more games or scripts?\n\n• Report broken scripts\n• Share your own scripts\n\nYour feedback helps improve Lizz Hub.")
+HelpTab:Label{
+    Text = "Need Help?",
+    Style = 2
+}
 
-HelpTab:AddParagraph("Community", "Follow us on TikTok for:\n• Updates and news\n• Giveaways and events")
+HelpTab:Label{
+    Text = "If you experience issues with any script or the hub, make sure:",
+    Style = 0
+}
 
-HelpTab:AddButton({
+HelpTab:Label{
+    Text = "• Your exploit is up to date",
+    Style = 0
+}
+
+HelpTab:Label{
+    Text = "• You run the hub only once per session",
+    Style = 0
+}
+
+HelpTab:Label{
+    Text = "Most issues happen when a game gets updated.",
+    Style = 0
+}
+
+HelpTab:Seperator()
+
+HelpTab:Label{
+    Text = "Support & Suggestions",
+    Style = 2
+}
+
+HelpTab:Label{
+    Text = "Want us to add more games or scripts?",
+    Style = 0
+}
+
+HelpTab:Label{
+    Text = "• Report broken scripts",
+    Style = 0
+}
+
+HelpTab:Label{
+    Text = "• Share your own scripts",
+    Style = 0
+}
+
+HelpTab:Label{
+    Text = "Your feedback helps improve Lizz Hub.",
+    Style = 0
+}
+
+HelpTab:Seperator()
+
+HelpTab:Label{
+    Text = "Community",
+    Style = 2
+}
+
+HelpTab:Label{
+    Text = "Follow us on TikTok for:",
+    Style = 0
+}
+
+HelpTab:Label{
+    Text = "• Updates and news",
+    Style = 0
+}
+
+HelpTab:Label{
+    Text = "• Giveaways and events",
+    Style = 0
+}
+
+HelpTab:Seperator()
+
+HelpTab:Button{
     Name = "Follow on TikTok",
+    Description = "Copy TikTok link",
     Callback = function()
         setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-        OrionLib:MakeNotification({
-            Name = "TikTok",
-            Content = "Link copied to clipboard!",
-            Time = 3
-        })
-    end    
-})
-
--- Init
-OrionLib:Init()
+        GUI:Notification{
+            Title = "TikTok",
+            Text = "Link copied to clipboard!",
+            Duration = 3
+        }
+    end
+}
 
 print("Lizz Hub Loaded")
