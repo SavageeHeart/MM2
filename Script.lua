@@ -8,23 +8,51 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
--- Load Rayfield (LA MÁS USADA EN MM2)
-local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+-- Intentar cargar Rayfield con múltiples URLs
+local Rayfield
+local success = false
+
+-- Intento 1: Sirius
+pcall(function()
+    Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+    success = true
+end)
+
+-- Intento 2: GitHub oficial
+if not success then
+    pcall(function()
+        Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+        success = true
+    end)
+end
+
+-- Intento 3: Pastebin backup
+if not success then
+    pcall(function()
+        Rayfield = loadstring(game:HttpGet('https://pastebin.com/raw/XC3K6TdB'))()
+        success = true
+    end)
+end
+
+if not success or not Rayfield then
+    game.StarterGui:SetCore("SendNotification", {
+        Title = "Error",
+        Text = "Failed to load UI library. Try another executor.",
+        Duration = 5
+    })
+    return
+end
 
 -- Create Window
 local Window = Rayfield:CreateWindow({
    Name = "Lizz Hub",
    LoadingTitle = "Lizz Hub",
-   LoadingSubtitle = "Loading...",
+   LoadingSubtitle = "Loading",
    ConfigurationSaving = {
-      Enabled = false,
-      FolderName = nil,
-      FileName = "LizzHub"
+      Enabled = false
    },
    Discord = {
-      Enabled = false,
-      Invite = "",
-      RememberJoins = false
+      Enabled = false
    },
    KeySystem = false
 })
@@ -59,7 +87,7 @@ MM2Tab:CreateButton({
    Callback = function()
       Rayfield:Notify({
          Title = "Loading",
-         Content = "Loading Capybara Hub...",
+         Content = "Loading Capybara Hub",
          Duration = 2,
          Image = 4483362458
       })
@@ -75,7 +103,7 @@ MM2Tab:CreateButton({
    Callback = function()
       Rayfield:Notify({
          Title = "Loading",
-         Content = "Loading Overdrive Hub...",
+         Content = "Loading Overdrive Hub",
          Duration = 2,
          Image = 4483362458
       })
@@ -95,7 +123,7 @@ GardenTab:CreateButton({
    Callback = function()
       Rayfield:Notify({
          Title = "Loading",
-         Content = "Loading Soluna Script...",
+         Content = "Loading Soluna Script",
          Duration = 2,
          Image = 4483362458
       })
@@ -115,7 +143,7 @@ ForgeTab:CreateButton({
    Callback = function()
       Rayfield:Notify({
          Title = "Loading",
-         Content = "Loading Chiyo Forge...",
+         Content = "Loading Chiyo Forge",
          Duration = 2,
          Image = 4483362458
       })
