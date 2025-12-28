@@ -82,12 +82,6 @@ task.spawn(function()
         Author = "SavageeHeart",
         Folder = "LizzHub",
         Size = UDim2.fromOffset(580, 460),
-        KeySystem = {
-            Key = "",
-            Note = "Keyless",
-            URL = "",
-            SaveKey = false,
-        },
         Transparent = true,
         Theme = "Dark",
         SideBarWidth = 170,
