@@ -95,10 +95,9 @@ task.spawn(function()
     local function CloseHub()
         if Window then
             pcall(function()
-                Window:Destroy()
+                Window:Minimize()
             end)
         end
-        getgenv().LizzHubLoaded = false
     end
 
     -- HOME TAB
@@ -141,7 +140,7 @@ task.spawn(function()
                 Duration = 2
             })
             task.spawn(function()
-                loadstring(game:HttpGet('https://raw.githubusercontent.com/renardofficiel/game/refs/heads/main/loader.lua'))()
+                loadstring(game:HttpGet('https://raw.githubusercontent.com/renardofficiel/game/refs/heads/main/loader.lua', true))()
                 task.wait(2)
                 CloseHub()
             end)
