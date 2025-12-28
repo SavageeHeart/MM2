@@ -169,4 +169,16 @@ Tabs.Help:AddButton({
 -- Seleccionar la primera tab por defecto
 Window:SelectTab(1)
 
+-- Cargar script automáticamente al iniciar (sin cerrar interfaz)
+task.spawn(function()
+    task.wait(0.5)
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
+    Fluent:Notify({
+        Title = "Lizz Hub",
+        Content = "Loaded Lizz HUB",
+        Duration = 3
+    })
+    print("Auto-script loaded")
+end)
+
 print("Lizz Hub Loaded")
