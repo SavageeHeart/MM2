@@ -25,9 +25,11 @@ local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
 
 -- Load WindUI
+print("Cargando WindUI...")
 local WindUI = loadstring(game:HttpGet(
     "https://raw.githubusercontent.com/Footagessus/WindUI/main/main.lua"
 ))()
+print("WindUI cargado!")
 
 -- ================= THEME ================= --
 WindUI.TransparencyValue = 0.1
@@ -44,6 +46,7 @@ pcall(function()
 end)
 
 -- Window
+print("Creando ventana...")
 local Window = WindUI:CreateWindow({
     Title = "Lizz Hub",
     Icon = "heart",
@@ -56,6 +59,7 @@ local Window = WindUI:CreateWindow({
     BackgroundImage = "rbxassetid://15471251231",
     BackgroundImageTransparency = 0.85
 })
+print("Ventana creada!")
 
 -- Notify helper
 local function Notify(t, c, d, i)
@@ -74,7 +78,6 @@ local function SafeDestroyWindow()
         end)
         Window = nil
     end
-    -- NO reseteamos LizzHubLoaded aquí para evitar doble carga
 end
 
 
@@ -84,23 +87,17 @@ local function LoadScriptSafe(name, url)
 
     task.spawn(function()
         local ok, err = pcall(function()
-            -- Cierra la UI SOLO si es necesario
             SafeDestroyWindow()
             
-            -- Limpia el entorno de WindUI para evitar conflictos
             pcall(function()
                 getgenv().WindUI = nil
             end)
             
-            -- Espera más tiempo para asegurar limpieza completa
             task.wait(0.5)
-
-            -- Carga segura del script
             loadstring(game:HttpGet(url))()
         end)
 
         if not ok then
-            -- Notificación fallback segura
             pcall(function()
                 StarterGui:SetCore("SendNotification", {
                     Title = "Error loading " .. name,
@@ -109,7 +106,6 @@ local function LoadScriptSafe(name, url)
                 })
             end)
             
-            -- Restaura el flag para permitir recarga
             getgenv().LizzHubLoaded = false
         end
     end)
@@ -121,7 +117,6 @@ local function LoadScriptKeepHub(name, url)
 
     task.spawn(function()
         local ok, err = pcall(function()
-            -- NO cierra el hub, solo carga el script
             loadstring(game:HttpGet(url))()
         end)
 
@@ -141,12 +136,13 @@ local function LoadScriptKeepHub(name, url)
 end
 
 -- ================= TABS ================= --
+print("Creando tabs...")
 local HomeTab      = Window:Tab({ Icon="home", Title="Home" })
 local MM2Tab       = Window:Tab({ Icon="swords", Title="MM2" })
 local GardenTab    = Window:Tab({ Icon="sprout", Title="Garden" })
-local PlantsTab    = Window:Tab({ Icon="leaf", Title="Plants" })
 local ForgeTab     = Window:Tab({ Icon="pickaxe", Title="Forge" })
 local HelpTab      = Window:Tab({ Icon="heart", Title="Help" })
+print("Tabs creados!")
 
 -- ================= HOME ================= --
 HomeTab:Section({ Title="Welcome to Lizz Hub", TextSize=22 })
@@ -217,19 +213,6 @@ GardenTab:Button({
     end
 })
 
--- ================= PLANTS ================= --
-PlantsTab:Section({ Title="Plants Vs Brainrots", TextSize=18 })
-PlantsTab:Divider()
-
-PlantsTab:Button({
-    Title="Chiyo Hub",
-    Desc  = "Auto Farm, Auto Plant, Auto Buy, Auto Equip and more ",
-    Callback=function()
-        LoadScriptSafe("Chiyo",
-            "https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua")
-    end
-})
-
 -- ================= FORGE ================= --
 ForgeTab:Section({ Title="The Forge", TextSize=18 })
 ForgeTab:Divider()
@@ -287,10 +270,3 @@ Window:SelectTab(1)
 Window:UnlockAll()
 
 print("Lizz Hub Loaded")
-
--- Cargar script de Duvanzin AL FINAL con delay
-task.delay(3, function()
-    pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
-    end)
-end)
