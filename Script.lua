@@ -17,10 +17,13 @@ end
 _G.setclipboard = getgenv().setclipboard
 -- ============================================== --
 
--- ========== CARGAR SCRIPT DUVANZIN PRIMERO ========== --
-print("Loading Duvanzin script...")
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
-task.wait(1) -- Esperar a que cargue el script
+-- ========== CARGAR SCRIPT DUVANZIN EN SEGUNDO PLANO ========== --
+task.spawn(function()
+    pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
+    end)
+end)
+-- ============================================== --
 
 -- Cargar Fluent UI Library
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
@@ -95,10 +98,20 @@ Tabs.MM2:AddButton({
             Duration = 2
         })
         task.spawn(function()
-            task.wait(0.5)
-            loadstring(game:HttpGet('https://raw.githubusercontent.com/renardofficiel/game/refs/heads/main/loader.lua', true))()
             task.wait(0.3)
-            CloseHub()
+            local success, error = pcall(function()
+                loadstring(game:HttpGet('https://raw.githubusercontent.com/renardofficiel/game/refs/heads/main/loader.lua', true))()
+            end)
+            if not success then
+                Fluent:Notify({
+                    Title = "Error",
+                    Content = "Failed to load script",
+                    Duration = 5
+                })
+            else
+                task.wait(0.5)
+                CloseHub()
+            end
         end)
     end
 })
@@ -119,10 +132,20 @@ Tabs.Garden:AddButton({
             Duration = 2
         })
         task.spawn(function()
-            task.wait(0.5)
-            loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
             task.wait(0.3)
-            CloseHub()
+            local success, error = pcall(function()
+                loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
+            end)
+            if not success then
+                Fluent:Notify({
+                    Title = "Error",
+                    Content = "Failed to load script",
+                    Duration = 5
+                })
+            else
+                task.wait(0.5)
+                CloseHub()
+            end
         end)
     end
 })
@@ -143,10 +166,20 @@ Tabs.Forge:AddButton({
             Duration = 2
         })
         task.spawn(function()
-            task.wait(0.5)
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
             task.wait(0.3)
-            CloseHub()
+            local success, error = pcall(function()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
+            end)
+            if not success then
+                Fluent:Notify({
+                    Title = "Error",
+                    Content = "Failed to load script",
+                    Duration = 5
+                })
+            else
+                task.wait(0.5)
+                CloseHub()
+            end
         end)
     end
 })
@@ -154,7 +187,7 @@ Tabs.Forge:AddButton({
 -- HELP TAB
 Tabs.Help:AddParagraph({
     Title = "Need Help?",
-    Content = "If you experience issues with any script or the hub, make sure:\n\n• Your exploit is up to date\n• You run the hub only once per session\n\nMost issues happen when a game gets updated."
+    Content = "If you experience issues with any script or the hub, make sure:\n\n• Your exploit is up to date\n• You run the hub only once per session\n• You're in the correct game\n\nMost issues happen when a game gets updated."
 })
 
 Tabs.Help:AddParagraph({
