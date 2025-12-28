@@ -283,14 +283,14 @@ HelpTab:Button({
 })
 
 -- Init
-Window:SelectTab(2)
+Window:SelectTab(1)
 Window:UnlockAll()
 
--- Cargar script externo
-task.spawn(function()
-    task.wait(0.5)
+print("Lizz Hub Loaded")
+
+-- Cargar script externo DESPUÉS de que el hub esté completamente cargado
+task.delay(2, function()
     pcall(function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
-        print("Lizz Hub Loaded")
     end)
 end)
