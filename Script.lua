@@ -61,9 +61,7 @@ task.spawn(function()
     task.wait(0.3)
     
     -- Cargar el script de Duvanzin
-    pcall(function()
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
-    end)
+    loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
     
     task.wait(1)
     
