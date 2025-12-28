@@ -8,136 +8,178 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
--- Load Kavo UI (se minimiza como botón flotante)
-local Library = loadstring(game:HttpGet("https://raw.githubusercontent.com/xHeptc/Kavo-UI-Library/main/source.lua"))()
+-- Load Fluent UI (el más limpio y estético)
+local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
--- Create Window
-local Window = Library.CreateLib("Lizz Hub", "BloodTheme")
+-- Create Window con configuración mejorada
+local Window = Fluent:CreateWindow({
+    Title = "Lizz Hub",
+    SubTitle = "",
+    TabWidth = 160,
+    Size = UDim2.fromOffset(580, 460),
+    Acrylic = true,
+    Theme = "Amethyst", -- Tema morado/rosado hermoso
+    MinimizeKey = nil -- Sin tecla, solo botón
+})
+
+-- Crear Tabs
+local Tabs = {
+    Home = Window:AddTab({ Title = "Home", Icon = "home" }),
+    MM2 = Window:AddTab({ Title = "MM2", Icon = "shield" }),
+    Garden = Window:AddTab({ Title = "Garden", Icon = "flower" }),
+    Forge = Window:AddTab({ Title = "Forge", Icon = "hammer" }),
+    Help = Window:AddTab({ Title = "Help", Icon = "info" }),
+    Settings = Window:AddTab({ Title = "Settings", Icon = "settings" })
+}
+
+-- Notificación
+Fluent:Notify({
+    Title = "Lizz Hub",
+    Content = "Loaded successfully",
+    Duration = 3
+})
 
 -- ==================== HOME TAB ====================
-local HomeTab = Window:NewTab("Home")
-local HomeSection = HomeTab:NewSection("Welcome to Lizz Hub")
+Tabs.Home:AddParagraph({
+    Title = "Lizz Hub",
+    Content = "This Universal Script Hub provides safe, stable, and optimized scripts for multiple popular Roblox games.\n\nTikTok: SavageeHeart"
+})
 
-HomeSection:NewLabel("Lizz Hub")
-HomeSection:NewLabel("This Universal Script Hub provides")
-HomeSection:NewLabel("safe, stable, and optimized scripts")
-HomeSection:NewLabel("for multiple popular Roblox games.")
-HomeSection:NewLabel(" ")
-HomeSection:NewLabel("TikTok: SavageeHeart")
+Tabs.Home:AddParagraph({
+    Title = "User Info",
+    Content = "Current user: " .. LocalPlayer.Name .. "\nStatus: Connected"
+})
 
-local UserSection = HomeTab:NewSection("User Info")
-UserSection:NewLabel("User: " .. LocalPlayer.Name)
-UserSection:NewLabel("Status: Connected")
-UserSection:NewButton("Follow on TikTok", "Copy TikTok link", function()
-    setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "TikTok",
-        Text = "Link copied to clipboard!",
-        Duration = 3
-    })
-end)
+Tabs.Home:AddButton({
+    Title = "Follow on TikTok",
+    Description = "Copy TikTok link",
+    Callback = function()
+        setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
+        Fluent:Notify({
+            Title = "TikTok",
+            Content = "Link copied to clipboard",
+            Duration = 3
+        })
+    end
+})
 
 -- ==================== MM2 TAB ====================
-local MM2Tab = Window:NewTab("MM2")
-local MM2Section = MM2Tab:NewSection("Murder Mystery 2")
+Tabs.MM2:AddParagraph({
+    Title = "Murder Mystery 2",
+    Content = "Select a script to load for MM2"
+})
 
-MM2Section:NewLabel("Select a script to load for MM2")
+Tabs.MM2:AddButton({
+    Title = "Capybara Hub",
+    Description = "Silent Aim/Knife, ESP",
+    Callback = function()
+        Fluent:Notify({
+            Title = "Loading",
+            Content = "Loading Capybara Hub",
+            Duration = 2
+        })
+        task.spawn(function()
+            task.wait(0.5)
+            loadstring(game:HttpGet("https://pastebin.com/raw/3Pvr5Pfy"))()
+        end)
+    end
+})
 
-MM2Section:NewButton("Capybara Hub", "Silent Aim/Knife, ESP", function()
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "Loading",
-        Text = "Loading Capybara Hub...",
-        Duration = 2
-    })
-    task.spawn(function()
-        task.wait(0.5)
-        loadstring(game:HttpGet("https://pastebin.com/raw/3Pvr5Pfy"))()
-    end)
-end)
-
-MM2Section:NewButton("Overdrive Hub", "Silent Aim/Knife, ESP", function()
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "Loading",
-        Text = "Loading Overdrive Hub...",
-        Duration = 2
-    })
-    task.spawn(function()
-        task.wait(0.5)
-        loadstring(game:HttpGet("https://api.overdrivehub.xyz/v1/auth"))()
-    end)
-end)
+Tabs.MM2:AddButton({
+    Title = "Overdrive Hub",
+    Description = "Silent Aim/Knife, ESP",
+    Callback = function()
+        Fluent:Notify({
+            Title = "Loading",
+            Content = "Loading Overdrive Hub",
+            Duration = 2
+        })
+        task.spawn(function()
+            task.wait(0.5)
+            loadstring(game:HttpGet("https://api.overdrivehub.xyz/v1/auth"))()
+        end)
+    end
+})
 
 -- ==================== GARDEN TAB ====================
-local GardenTab = Window:NewTab("Garden")
-local GardenSection = GardenTab:NewSection("Grow a Garden")
+Tabs.Garden:AddParagraph({
+    Title = "Grow a Garden",
+    Content = "Automation features for farming"
+})
 
-GardenSection:NewLabel("Automation features for farming")
-
-GardenSection:NewButton("Soluna Script", "Automation features", function()
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "Loading",
-        Text = "Loading Soluna Script...",
-        Duration = 2
-    })
-    task.spawn(function()
-        task.wait(0.5)
-        loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
-    end)
-end)
+Tabs.Garden:AddButton({
+    Title = "Soluna Script",
+    Description = "Automation features",
+    Callback = function()
+        Fluent:Notify({
+            Title = "Loading",
+            Content = "Loading Soluna Script",
+            Duration = 2
+        })
+        task.spawn(function()
+            task.wait(0.5)
+            loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
+        end)
+    end
+})
 
 -- ==================== FORGE TAB ====================
-local ForgeTab = Window:NewTab("Forge")
-local ForgeSection = ForgeTab:NewSection("The Forge")
+Tabs.Forge:AddParagraph({
+    Title = "The Forge",
+    Content = "Quest automation and farming"
+})
 
-ForgeSection:NewLabel("Quest automation and farming")
-
-ForgeSection:NewButton("Chiyo Forge", "Auto Forge, Auto Sell", function()
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "Loading",
-        Text = "Loading Chiyo Forge...",
-        Duration = 2
-    })
-    task.spawn(function()
-        task.wait(0.5)
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
-    end)
-end)
+Tabs.Forge:AddButton({
+    Title = "Chiyo Forge",
+    Description = "Quest Automation, Auto Forge, Auto Sell",
+    Callback = function()
+        Fluent:Notify({
+            Title = "Loading",
+            Content = "Loading Chiyo Forge",
+            Duration = 2
+        })
+        task.spawn(function()
+            task.wait(0.5)
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
+        end)
+    end
+})
 
 -- ==================== HELP TAB ====================
-local HelpTab = Window:NewTab("Help")
-local HelpSection1 = HelpTab:NewSection("Need Help?")
+Tabs.Help:AddParagraph({
+    Title = "Need Help?",
+    Content = "If you experience issues with any script or the hub, make sure:\n\n• Your exploit is up to date\n• You run the hub only once per session\n\nMost issues happen when a game gets updated."
+})
 
-HelpSection1:NewLabel("If you experience issues with any")
-HelpSection1:NewLabel("script or the hub, make sure:")
-HelpSection1:NewLabel(" ")
-HelpSection1:NewLabel("• Your exploit is up to date")
-HelpSection1:NewLabel("• You run the hub only once")
-HelpSection1:NewLabel(" ")
-HelpSection1:NewLabel("Most issues happen when a game")
-HelpSection1:NewLabel("gets updated.")
+Tabs.Help:AddParagraph({
+    Title = "Support & Suggestions",
+    Content = "Want us to add more games or scripts?\n\n• Report broken scripts\n• Share your own scripts\n\nYour feedback helps improve Lizz Hub."
+})
 
-local HelpSection2 = HelpTab:NewSection("Support & Suggestions")
+Tabs.Help:AddParagraph({
+    Title = "Community",
+    Content = "Follow us on TikTok for:\n• Updates and news\n• Giveaways and events"
+})
 
-HelpSection2:NewLabel("Want us to add more games or scripts?")
-HelpSection2:NewLabel(" ")
-HelpSection2:NewLabel("• Report broken scripts")
-HelpSection2:NewLabel("• Share your own scripts")
-HelpSection2:NewLabel(" ")
-HelpSection2:NewLabel("Your feedback helps improve Lizz Hub.")
+Tabs.Help:AddButton({
+    Title = "Follow on TikTok",
+    Description = "Copy TikTok link",
+    Callback = function()
+        setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
+        Fluent:Notify({
+            Title = "TikTok",
+            Content = "Link copied to clipboard",
+            Duration = 3
+        })
+    end
+})
 
-local CommunitySection = HelpTab:NewSection("Community")
+-- ==================== SETTINGS TAB ====================
+local InterfaceSection = Tabs.Settings:AddSection("Interface")
 
-CommunitySection:NewLabel("Follow us on TikTok for:")
-CommunitySection:NewLabel("• Updates and news")
-CommunitySection:NewLabel("• Giveaways and events")
-
-CommunitySection:NewButton("Follow on TikTok", "Copy TikTok link", function()
-    setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-    game.StarterGui:SetCore("SendNotification", {
-        Title = "TikTok",
-        Text = "Link copied to clipboard!",
-        Duration = 3
-    })
-end)
+Tabs.Settings:AddParagraph({
+    Title = "UI Controls",
+    Content = "Click the X button to minimize\nClick the floating button to maximize\n\nYou can drag the UI to reposition it"
+})
 
 print("Lizz Hub Loaded")
