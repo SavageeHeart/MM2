@@ -70,23 +70,29 @@ task.spawn(function()
     -- Cerrar pantalla de carga
     LoadingScreen:Destroy()
     
-    -- Cargar WindUI Library
-    local Wind = loadstring(game:HttpGet(
-        "https://raw.githubusercontent.com/Footagessus/WindUI/main/main.lua"
-    ))()
+    -- Cargar Fluent UI Library (más estable que WindUI)
+    local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
     
     -- ========== CREAR INTERFAZ PRINCIPAL ========== --
-    local Window = Wind:CreateWindow({
+    local Window = Fluent:CreateWindow({
         Title = "Lizz Hub",
-        Icon = "rbxassetid://10734950020",
-        Author = "SavageeHeart",
-        Folder = "LizzHub",
+        SubTitle = "by SavageeHeart",
+        TabWidth = 160,
         Size = UDim2.fromOffset(580, 460),
-        Transparent = true,
-        Theme = "Dark",
-        SideBarWidth = 170,
+        Acrylic = true,
+        Theme = "Darker",
+        MinimizeKey = Enum.KeyCode.LeftControl
     })
-    
+
+    -- Crear Tabs
+    local Tabs = {
+        Home = Window:AddTab({ Title = "Home", Icon = "home" }),
+        MM2 = Window:AddTab({ Title = "MM2", Icon = "shield" }),
+        Garden = Window:AddTab({ Title = "Garden", Icon = "leaf" }),
+        Forge = Window:AddTab({ Title = "Forge", Icon = "hammer" }),
+        Help = Window:AddTab({ Title = "Help", Icon = "help-circle" })
+    }
+
     -- Función para cerrar la interfaz
     local function CloseHub()
         if Window then
@@ -97,62 +103,43 @@ task.spawn(function()
         getgenv().LizzHubLoaded = false
     end
 
-    -- ========== HOME TAB ========== --
-    local HomeTab = Window:Tab({
-        Title = "Home",
-        Icon = "home"
+    -- HOME TAB
+    Tabs.Home:AddParagraph({
+        Title = "Lizz Hub",
+        Content = "TikTok: SavageeHeart\n\nWelcome to Lizz Hub!"
     })
 
-    local HomeSection = HomeTab:Section({
-        Title = "Welcome to Lizz Hub"
+    Tabs.Home:AddParagraph({
+        Title = "User Info",
+        Content = "Current user: " .. LocalPlayer.Name .. "\nStatus: Connected"
     })
 
-    HomeSection:Label({
-        Text = "TikTok: SavageeHeart"
-    })
-
-    HomeSection:Label({
-        Text = "Current User: " .. LocalPlayer.Name
-    })
-
-    HomeSection:Label({
-        Text = "Status: Connected"
-    })
-
-    HomeSection:Button({
+    Tabs.Home:AddButton({
         Title = "Follow on TikTok",
-        Desc = "Copy TikTok link to clipboard",
+        Description = "Copy TikTok link to clipboard",
         Callback = function()
             setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-            Wind:Notification({
+            Fluent:Notify({
                 Title = "TikTok",
-                Description = "Link copied to clipboard!",
+                Content = "Link copied to clipboard!",
                 Duration = 3
             })
         end
     })
 
-    -- ========== MM2 TAB ========== --
-    local MM2Tab = Window:Tab({
-        Title = "MM2",
-        Icon = "shield"
+    -- MM2 TAB
+    Tabs.MM2:AddParagraph({
+        Title = "Murder Mystery 2",
+        Content = "Select a script to load"
     })
 
-    local MM2Section = MM2Tab:Section({
-        Title = "Murder Mystery 2"
-    })
-
-    MM2Section:Label({
-        Text = "Select a script to load"
-    })
-
-    MM2Section:Button({
+    Tabs.MM2:AddButton({
         Title = "Lizz Script",
-        Desc = "Load the main MM2 script",
+        Description = "Load the main MM2 script",
         Callback = function()
-            Wind:Notification({
+            Fluent:Notify({
                 Title = "Loading",
-                Description = "Loading Lizz Script...",
+                Content = "Loading Lizz Script...",
                 Duration = 2
             })
             task.spawn(function()
@@ -163,27 +150,19 @@ task.spawn(function()
         end
     })
 
-    -- ========== GARDEN TAB ========== --
-    local GardenTab = Window:Tab({
-        Title = "Garden",
-        Icon = "leaf"
+    -- GARDEN TAB
+    Tabs.Garden:AddParagraph({
+        Title = "Grow a Garden",
+        Content = "Scripts for Grow a Garden game"
     })
 
-    local GardenSection = GardenTab:Section({
-        Title = "Grow a Garden"
-    })
-
-    GardenSection:Label({
-        Text = "Scripts for Grow a Garden game"
-    })
-
-    GardenSection:Button({
+    Tabs.Garden:AddButton({
         Title = "Soluna Script",
-        Desc = "Load Soluna automation script",
+        Description = "Load Soluna automation script",
         Callback = function()
-            Wind:Notification({
+            Fluent:Notify({
                 Title = "Loading",
-                Description = "Loading Soluna Script...",
+                Content = "Loading Soluna Script...",
                 Duration = 2
             })
             task.spawn(function()
@@ -194,27 +173,19 @@ task.spawn(function()
         end
     })
 
-    -- ========== FORGE TAB ========== --
-    local ForgeTab = Window:Tab({
-        Title = "Forge",
-        Icon = "hammer"
+    -- FORGE TAB
+    Tabs.Forge:AddParagraph({
+        Title = "The Forge",
+        Content = "Scripts for The Forge game"
     })
 
-    local ForgeSection = ForgeTab:Section({
-        Title = "The Forge"
-    })
-
-    ForgeSection:Label({
-        Text = "Scripts for The Forge game"
-    })
-
-    ForgeSection:Button({
+    Tabs.Forge:AddButton({
         Title = "Chiyo Forge",
-        Desc = "Load Chiyo automation script",
+        Description = "Load Chiyo automation script",
         Callback = function()
-            Wind:Notification({
+            Fluent:Notify({
                 Title = "Loading",
-                Description = "Loading Chiyo Forge...",
+                Content = "Loading Chiyo Forge...",
                 Duration = 2
             })
             task.spawn(function()
@@ -225,85 +196,42 @@ task.spawn(function()
         end
     })
 
-    -- ========== HELP TAB ========== --
-    local HelpTab = Window:Tab({
-        Title = "Help",
-        Icon = "help-circle"
+    -- HELP TAB
+    Tabs.Help:AddParagraph({
+        Title = "Need Help?",
+        Content = "If you experience issues with any script or the hub, make sure:\n\n• Your exploit is up to date\n• You run the hub only once per session\n\nMost issues happen when a game gets updated."
     })
 
-    local HelpSection = HelpTab:Section({
-        Title = "Need Help?"
+    Tabs.Help:AddParagraph({
+        Title = "Support & Suggestions",
+        Content = "Want us to add more games or scripts?\n\n• Report broken scripts\n• Share your own scripts\n\nYour feedback helps improve Lizz Hub."
     })
 
-    HelpSection:Label({
-        Text = "If you experience issues with any script or the hub, make sure:"
+    Tabs.Help:AddParagraph({
+        Title = "Community",
+        Content = "Follow us on TikTok for:\n• Updates and news\n• Giveaways and events"
     })
 
-    HelpSection:Label({
-        Text = "• Your exploit is up to date"
-    })
-
-    HelpSection:Label({
-        Text = "• You run the hub only once per session"
-    })
-
-    HelpSection:Label({
-        Text = "Most issues happen when a game gets updated."
-    })
-
-    local SupportSection = HelpTab:Section({
-        Title = "Support & Suggestions"
-    })
-
-    SupportSection:Label({
-        Text = "Want us to add more games or scripts?"
-    })
-
-    SupportSection:Label({
-        Text = "• Report broken scripts"
-    })
-
-    SupportSection:Label({
-        Text = "• Share your own scripts"
-    })
-
-    SupportSection:Label({
-        Text = "Your feedback helps improve Lizz Hub."
-    })
-
-    local CommunitySection = HelpTab:Section({
-        Title = "Community"
-    })
-
-    CommunitySection:Label({
-        Text = "Follow us on TikTok for:"
-    })
-
-    CommunitySection:Label({
-        Text = "• Updates and news"
-    })
-
-    CommunitySection:Label({
-        Text = "• Giveaways and events"
-    })
-
-    CommunitySection:Button({
+    Tabs.Help:AddButton({
         Title = "Follow on TikTok",
-        Desc = "Copy TikTok link to clipboard",
+        Description = "Copy TikTok link to clipboard",
         Callback = function()
             setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-            Wind:Notification({
+            Fluent:Notify({
                 Title = "TikTok",
-                Description = "Link copied to clipboard!",
+                Content = "Link copied to clipboard!",
                 Duration = 3
             })
         end
     })
 
+    -- Seleccionar la primera tab por defecto
+    Window:SelectTab(1)
+    
     -- Notificación de carga completa
-    Wind:Notification({
+    Fluent:Notify({
         Title = "Lizz Hub",
-        Description = "Loaded successfully!",
+        Content = "Loaded Lizz HUB",
         Duration = 3
     })
 
