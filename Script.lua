@@ -141,8 +141,6 @@ task.spawn(function()
             })
             task.spawn(function()
                 loadstring(game:HttpGet('https://raw.githubusercontent.com/renardofficiel/game/refs/heads/main/loader.lua', true))()
-                task.wait(2)
-                CloseHub()
             end)
         end
     })
