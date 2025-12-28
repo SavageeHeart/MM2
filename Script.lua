@@ -26,7 +26,7 @@ local Window = Rayfield:CreateWindow({
    Theme = "DarkBlue"
 })
 
--- Ocultar el texto TAB
+-- Ocultar el texto TAB y detectar minimizado
 task.spawn(function()
    task.wait(0.5)
    pcall(function()
@@ -36,6 +36,42 @@ task.spawn(function()
             if v:IsA("TextLabel") and v.Text == "TAB" then
                v.Visible = false
             end
+         end
+      end
+   end)
+   
+   -- Detectar cuando se minimiza el panel
+   while task.wait(0.1) do
+      pcall(function()
+         local rayfieldGui = game:GetService("CoreGui"):FindFirstChild("Rayfield")
+         if rayfieldGui then
+            local main = rayfieldGui:FindFirstChild("Main")
+            if main then
+               if main.Visible == false then
+                  FloatingGui.Enabled = true
+               else
+                  FloatingGui.Enabled = false
+               end
+            end
+         end
+      end)
+   end
+end)
+
+-- Función para maximizar cuando presionas el botón flotante
+FloatingButton.MouseButton1Click:Connect(function()
+   pcall(function()
+      local rayfieldGui = game:GetService("CoreGui"):FindFirstChild("Rayfield")
+      if rayfieldGui then
+         local main = rayfieldGui:FindFirstChild("Main")
+         if main then
+            main.Visible = true
+            FloatingGui.Enabled = false
+            Rayfield:Notify({
+               Title = "Lizz Hub",
+               Content = "Panel opened",
+               Duration = 2
+            })
          end
       end
    end)
