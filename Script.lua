@@ -153,4 +153,10 @@ Tabs.Help:AddButton({
 -- Seleccionar la primera tab por defecto
 Window:SelectTab(1)
 
+-- Agregar botón flotante para móvil
+Fluent:CreateToggleButton({
+    Title = "Lizz Hub",
+    Position = UDim2.new(0, 10, 0.5, -25)
+})
+
 print("Lizz Hub Loaded")
