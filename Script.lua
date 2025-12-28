@@ -1,4 +1,3 @@
-
 -- Anti doble ejecución
 if getgenv().LizzHubLoaded then return end
 getgenv().LizzHubLoaded = true
