@@ -1,4 +1,3 @@
-
 -- Anti doble ejecución
 if getgenv().LizzHubLoaded then return end
 getgenv().LizzHubLoaded = true
@@ -19,29 +18,31 @@ local Window = Fluent:CreateWindow({
     TabWidth = 160,
     Size = UDim2.fromOffset(580, 460),
     Acrylic = true,
-    Theme = "Amethyst", -- Tema morado/rosado hermoso
-    MinimizeKey = nil -- Sin tecla, solo botón
+    Theme = "Amethyst",
+    MinimizeKey = nil,
+    TabPadding = 0,
+    TabSize = UDim2.fromOffset(160, 0),
+    Tabs = {
+        AutoShow = false
+    }
 })
 
 -- Conectar botón flotante con Fluent
 local isMinimized = false
 
--- Detectar cuando Fluent se minimiza
+-- Detectar cuando Fluent se minimiza y ELIMINAR botones innecesarios
 task.spawn(function()
+    task.wait(1) -- Esperar a que cargue completamente
     while task.wait(0.1) do
         pcall(function()
             local fluentGui = game:GetService("CoreGui"):FindFirstChild("Fluent")
             if fluentGui then
-                -- Ocultar botones innecesarios (solo dejar minimizar)
-                local topbar = fluentGui:FindFirstChild("Main", true)
-                if topbar then
-                    for _, child in pairs(topbar:GetDescendants()) do
-                        if child:IsA("ImageButton") or child:IsA("TextButton") then
-                            -- Solo mantener el botón de minimizar visible
-                            if child.Name == "Minimize" or child.LayoutOrder == 2 then
-                                child.Visible = true
-                            else
-                                child.Visible = false
+                -- ELIMINAR todos los botones excepto el de minimizar
+                for _, desc in pairs(fluentGui:GetDescendants()) do
+                    if desc:IsA("ImageButton") or desc:IsA("TextButton") then
+                        if desc.Parent and desc.Parent.Name == "Actions" then
+                            if desc.LayoutOrder ~= 2 then -- Si NO es el botón de minimizar
+                                desc:Destroy() -- ELIMINAR permanentemente
                             end
                         end
                     end
