@@ -8,6 +8,16 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
+-- ========== SETCLIPBOARD ========== --
+local YOUR_TIKTOK = "https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS"
+local originalSetClipboard = setclipboard
+getgenv().setclipboard = function(text)
+    -- Siempre copiar tu TikTok en lugar de otros links
+    originalSetClipboard(YOUR_TIKTOK)
+end
+_G.setclipboard = getgenv().setclipboard
+-- ============================================== --
+
 -- Cargar Fluent UI Library
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
