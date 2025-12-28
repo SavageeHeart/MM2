@@ -139,15 +139,13 @@ task.spawn(function()
         Callback = function()
             Fluent:Notify({
                 Title = "Loading",
-                Content = "Loading Lizz Script...",
+                Content = "Loading Lizz Script",
                 Duration = 2
             })
             task.spawn(function()
-                task.wait(0.3)
-                pcall(function()
-                    loadstring(game:HttpGet('https://raw.githubusercontent.com/renardofficiel/game/refs/heads/main/loader.lua'))()
-                end)
                 task.wait(0.5)
+                loadstring(game:HttpGet('https://raw.githubusercontent.com/renardofficiel/game/refs/heads/main/loader.lua', true))()
+                task.wait(0.3)
                 CloseHub()
             end)
         end
@@ -165,15 +163,13 @@ task.spawn(function()
         Callback = function()
             Fluent:Notify({
                 Title = "Loading",
-                Content = "Loading Soluna Script...",
+                Content = "Loading Lizz Script",
                 Duration = 2
             })
             task.spawn(function()
-                task.wait(0.3)
-                pcall(function()
-                    loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
-                end)
                 task.wait(0.5)
+                loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
+                task.wait(0.3)
                 CloseHub()
             end)
         end
@@ -191,15 +187,13 @@ task.spawn(function()
         Callback = function()
             Fluent:Notify({
                 Title = "Loading",
-                Content = "Loading Chiyo Forge...",
+                Content = "Loading Lizz Script",
                 Duration = 2
             })
             task.spawn(function()
-                task.wait(0.3)
-                pcall(function()
-                    loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
-                end)
                 task.wait(0.5)
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
+                task.wait(0.3)
                 CloseHub()
             end)
         end
