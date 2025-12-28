@@ -82,11 +82,7 @@ task.spawn(function()
         Author = "SavageeHeart",
         Folder = "LizzHub",
         Size = UDim2.fromOffset(580, 460),
-        KeySystem = {
-            Key = "LizzHub2024",
-            Note = "No Key System",
-            SaveKey = false,
-        },
+        KeySystem = false,
         Transparent = true,
         Theme = "Dark",
         SideBarWidth = 170,
