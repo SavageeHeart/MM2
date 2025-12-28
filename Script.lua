@@ -6,7 +6,6 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 
 -- Services
 local Players = game:GetService("Players")
-local StarterGui = game:GetService("StarterGui")
 local LocalPlayer = Players.LocalPlayer
 
 -- ========== SETCLIPBOARD ========== --
@@ -18,218 +17,300 @@ end
 _G.setclipboard = getgenv().setclipboard
 -- ============================================== --
 
--- Load WindUI
-local WindUI = loadstring(game:HttpGet(
-    "https://raw.githubusercontent.com/Footagessus/WindUI/main/main.lua"
-))()
+-- ========== PANTALLA DE CARGA ========== --
+local LoadingScreen = Instance.new("ScreenGui")
+local LoadingFrame = Instance.new("Frame")
+local Title = Instance.new("TextLabel")
+local StatusText = Instance.new("TextLabel")
 
--- ================= THEME ================= --
-WindUI.TransparencyValue = 0.1
-WindUI:SetTheme("Darker")
+LoadingScreen.Name = "LizzHubLoading"
+LoadingScreen.Parent = game.CoreGui
+LoadingScreen.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 
--- Notification
-pcall(function()
-    StarterGui:SetCore("SendNotification", {
-        Title = "Lizz Hub",
-        Text = "Loading...",
-        Duration = 3,
-        Icon = "rbxthumb://type=AvatarHeadShot&id=" .. LocalPlayer.UserId
-    })
-end)
+LoadingFrame.Parent = LoadingScreen
+LoadingFrame.AnchorPoint = Vector2.new(0.5, 0.5)
+LoadingFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+LoadingFrame.BorderSizePixel = 0
+LoadingFrame.Position = UDim2.new(0.5, 0, 0.5, 0)
+LoadingFrame.Size = UDim2.new(0, 400, 0, 150)
+
+local Corner = Instance.new("UICorner")
+Corner.CornerRadius = UDim.new(0, 12)
+Corner.Parent = LoadingFrame
+
+Title.Parent = LoadingFrame
+Title.BackgroundTransparency = 1
+Title.Position = UDim2.new(0, 0, 0, 30)
+Title.Size = UDim2.new(1, 0, 0, 50)
+Title.Font = Enum.Font.GothamBold
+Title.Text = "LIZZ HUB"
+Title.TextColor3 = Color3.fromRGB(255, 255, 255)
+Title.TextSize = 32
+
+StatusText.Parent = LoadingFrame
+StatusText.BackgroundTransparency = 1
+StatusText.Position = UDim2.new(0, 0, 0, 90)
+StatusText.Size = UDim2.new(1, 0, 0, 30)
+StatusText.Font = Enum.Font.Gotham
+StatusText.Text = "Loading Lizz Script"
+StatusText.TextColor3 = Color3.fromRGB(200, 200, 200)
+StatusText.TextSize = 16
 
 -- ========== CARGAR SCRIPT DUVANZIN ========== --
 task.spawn(function()
+    task.wait(0.3)
+    
+    -- Cargar el script de Duvanzin
     pcall(function()
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
     end)
-end)
-
--- Window
-local Window = WindUI:CreateWindow({
-    Title = "Lizz Hub",
-    Icon = "home",
-    Folder = "LizzHub",
-    Size = UDim2.fromOffset(650, 550),
-    Theme = "Darker",
-    Acrylic = true,
-    HideSearchBar = true,
-    SideBarWidth = 220
-})
-
--- Notify helper
-local function Notify(t, c, d, i)
-    WindUI:Notify({
-        Title = ""..t,
-        Content = c,
-        Duration = d or 4,
-        Icon = i or "info"
+    
+    task.wait(1)
+    
+    -- Cerrar pantalla de carga
+    LoadingScreen:Destroy()
+    
+    -- Cargar WindUI Library
+    local Wind = loadstring(game:HttpGet(
+        "https://raw.githubusercontent.com/Footagessus/WindUI/main/main.lua"
+    ))()
+    
+    -- ========== CREAR INTERFAZ PRINCIPAL ========== --
+    local Window = Wind:CreateWindow({
+        Title = "Lizz Hub",
+        Icon = "rbxassetid://10734950020",
+        Author = "SavageeHeart",
+        Folder = "LizzHub",
+        Size = UDim2.fromOffset(580, 460),
+        KeySystem = {
+            Key = "LizzHub2024",
+            Note = "No Key System",
+            SaveKey = false,
+        },
+        Transparent = true,
+        Theme = "Dark",
+        SideBarWidth = 170,
     })
-end
-
-local function SafeDestroyWindow()
-    if Window then
-        pcall(function()
-            Window:Destroy()
-        end)
-        Window = nil
-    end
-end
-
--- SCRIPT LOADER
-local function LoadScriptSafe(name, url)
-    Notify("Loading", name .. "...", 2)
-
-    task.spawn(function()
-        local ok, err = pcall(function()
-            SafeDestroyWindow()
-            
+    
+    -- Función para cerrar la interfaz
+    local function CloseHub()
+        if Window then
             pcall(function()
-                getgenv().WindUI = nil
+                Window:Destroy()
             end)
-            
-            task.wait(0.5)
-            loadstring(game:HttpGet(url))()
-        end)
-
-        if not ok then
-            pcall(function()
-                StarterGui:SetCore("SendNotification", {
-                    Title = "Error loading " .. name,
-                    Text = tostring(err),
-                    Duration = 6
-                })
-            end)
-            
-            getgenv().LizzHubLoaded = false
         end
-    end)
-end
-
--- ================= TABS ================= --
-local HomeTab = Window:Tab({ Icon="home", Title="Home" })
-local MM2Tab = Window:Tab({ Icon="shield", Title="MM2" })
-local GardenTab = Window:Tab({ Icon="leaf", Title="Garden" })
-local ForgeTab = Window:Tab({ Icon="hammer", Title="Forge" })
-local HelpTab = Window:Tab({ Icon="help-circle", Title="Help" })
-
--- ================= HOME ================= --
-HomeTab:Section({ Title="Lizz Hub", TextSize=22 })
-HomeTab:Divider()
-
-HomeTab:Paragraph({
-    Title="Lizz Hub",
-    Desc="TikTok: SavageeHeart\n\nWelcome to Lizz Hub!"
-})
-
-HomeTab:Paragraph({
-    Title="User Info",
-    Desc="Current user: " .. LocalPlayer.Name .. "\nStatus: Connected"
-})
-
-HomeTab:Button({
-    Title="Follow on TikTok",
-    Desc="Copy TikTok link to clipboard",
-    Callback=function()
-        setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-        Notify("TikTok", "Link copied to clipboard!", 3)
+        getgenv().LizzHubLoaded = false
     end
-})
 
--- ================= MM2 ================= --
-MM2Tab:Section({ Title="Murder Mystery 2", TextSize=18 })
-MM2Tab:Divider()
+    -- ========== HOME TAB ========== --
+    local HomeTab = Window:Tab({
+        Title = "Home",
+        Icon = "home"
+    })
 
-MM2Tab:Paragraph({
-    Title="Murder Mystery 2",
-    Desc="Select a script to load"
-})
+    local HomeSection = HomeTab:Section({
+        Title = "Welcome to Lizz Hub"
+    })
 
-MM2Tab:Button({
-    Title="Lizz Script",
-    Desc="Load the main MM2 script",
-    Callback=function()
-        LoadScriptSafe("Lizz Script",
-            "https://raw.githubusercontent.com/renardofficiel/game/refs/heads/main/loader.lua")
-    end
-})
+    HomeSection:Label({
+        Text = "TikTok: SavageeHeart"
+    })
 
--- ================= GARDEN ================= --
-GardenTab:Section({ Title="Grow a Garden", TextSize=18 })
-GardenTab:Divider()
+    HomeSection:Label({
+        Text = "Current User: " .. LocalPlayer.Name
+    })
 
-GardenTab:Paragraph({
-    Title="Grow a Garden",
-    Desc="Scripts for Grow a Garden game"
-})
+    HomeSection:Label({
+        Text = "Status: Connected"
+    })
 
-GardenTab:Button({
-    Title="Soluna Script",
-    Desc="Load Soluna automation script",
-    Callback=function()
-        LoadScriptSafe("Soluna Script",
-            "https://soluna-script.vercel.app/grow-a-garden.lua")
-    end
-})
+    HomeSection:Button({
+        Title = "Follow on TikTok",
+        Desc = "Copy TikTok link to clipboard",
+        Callback = function()
+            setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
+            Wind:Notification({
+                Title = "TikTok",
+                Description = "Link copied to clipboard!",
+                Duration = 3
+            })
+        end
+    })
 
--- ================= FORGE ================= --
-ForgeTab:Section({ Title="The Forge", TextSize=18 })
-ForgeTab:Divider()
+    -- ========== MM2 TAB ========== --
+    local MM2Tab = Window:Tab({
+        Title = "MM2",
+        Icon = "shield"
+    })
 
-ForgeTab:Paragraph({
-    Title="The Forge",
-    Desc="Scripts for The Forge game"
-})
+    local MM2Section = MM2Tab:Section({
+        Title = "Murder Mystery 2"
+    })
 
-ForgeTab:Button({
-    Title="Chiyo Forge",
-    Desc="Load Chiyo automation script",
-    Callback=function()
-        LoadScriptSafe("Chiyo Forge",
-            "https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua")
-    end
-})
+    MM2Section:Label({
+        Text = "Select a script to load"
+    })
 
--- ================= HELP ================= --
-HelpTab:Section({ Title="Need Help?", TextSize=22 })
-HelpTab:Divider()
+    MM2Section:Button({
+        Title = "Lizz Script",
+        Desc = "Load the main MM2 script",
+        Callback = function()
+            Wind:Notification({
+                Title = "Loading",
+                Description = "Loading Lizz Script...",
+                Duration = 2
+            })
+            task.spawn(function()
+                loadstring(game:HttpGet('https://raw.githubusercontent.com/renardofficiel/game/refs/heads/main/loader.lua', true))()
+                task.wait(1)
+                CloseHub()
+            end)
+        end
+    })
 
-HelpTab:Paragraph({
-    Title="Need Help?",
-    Desc=
-        "If you experience issues with any script or the hub, make sure:\n\n" ..
-        "• Your exploit is up to date\n" ..
-        "• You run the hub only once per session\n\n" ..
-        "Most issues happen when a game gets updated."
-})
+    -- ========== GARDEN TAB ========== --
+    local GardenTab = Window:Tab({
+        Title = "Garden",
+        Icon = "leaf"
+    })
 
-HelpTab:Paragraph({
-    Title="Support & Suggestions",
-    Desc=
-        "Want us to add more games or scripts?\n\n" ..
-        "• Report broken scripts\n" ..
-        "• Share your own scripts\n\n" ..
-        "Your feedback helps improve Lizz Hub."
-})
+    local GardenSection = GardenTab:Section({
+        Title = "Grow a Garden"
+    })
 
-HelpTab:Paragraph({
-    Title="Community",
-    Desc=
-        "Follow us on TikTok for:\n" ..
-        "• Updates and news\n" ..
-        "• Giveaways and events"
-})
+    GardenSection:Label({
+        Text = "Scripts for Grow a Garden game"
+    })
 
-HelpTab:Button({
-    Title="Follow on TikTok",
-    Desc="Copy TikTok link to clipboard",
-    Callback=function()
-        setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-        Notify("TikTok", "Link copied to clipboard!", 3)
-    end
-})
+    GardenSection:Button({
+        Title = "Soluna Script",
+        Desc = "Load Soluna automation script",
+        Callback = function()
+            Wind:Notification({
+                Title = "Loading",
+                Description = "Loading Soluna Script...",
+                Duration = 2
+            })
+            task.spawn(function()
+                loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
+                task.wait(1)
+                CloseHub()
+            end)
+        end
+    })
 
--- Init
-Window:SelectTab(1)
+    -- ========== FORGE TAB ========== --
+    local ForgeTab = Window:Tab({
+        Title = "Forge",
+        Icon = "hammer"
+    })
 
-Notify("Lizz Hub", "Loaded Lizz HUB", 3)
-print("Lizz Hub Loaded")
+    local ForgeSection = ForgeTab:Section({
+        Title = "The Forge"
+    })
+
+    ForgeSection:Label({
+        Text = "Scripts for The Forge game"
+    })
+
+    ForgeSection:Button({
+        Title = "Chiyo Forge",
+        Desc = "Load Chiyo automation script",
+        Callback = function()
+            Wind:Notification({
+                Title = "Loading",
+                Description = "Loading Chiyo Forge...",
+                Duration = 2
+            })
+            task.spawn(function()
+                loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
+                task.wait(1)
+                CloseHub()
+            end)
+        end
+    })
+
+    -- ========== HELP TAB ========== --
+    local HelpTab = Window:Tab({
+        Title = "Help",
+        Icon = "help-circle"
+    })
+
+    local HelpSection = HelpTab:Section({
+        Title = "Need Help?"
+    })
+
+    HelpSection:Label({
+        Text = "If you experience issues with any script or the hub, make sure:"
+    })
+
+    HelpSection:Label({
+        Text = "• Your exploit is up to date"
+    })
+
+    HelpSection:Label({
+        Text = "• You run the hub only once per session"
+    })
+
+    HelpSection:Label({
+        Text = "Most issues happen when a game gets updated."
+    })
+
+    local SupportSection = HelpTab:Section({
+        Title = "Support & Suggestions"
+    })
+
+    SupportSection:Label({
+        Text = "Want us to add more games or scripts?"
+    })
+
+    SupportSection:Label({
+        Text = "• Report broken scripts"
+    })
+
+    SupportSection:Label({
+        Text = "• Share your own scripts"
+    })
+
+    SupportSection:Label({
+        Text = "Your feedback helps improve Lizz Hub."
+    })
+
+    local CommunitySection = HelpTab:Section({
+        Title = "Community"
+    })
+
+    CommunitySection:Label({
+        Text = "Follow us on TikTok for:"
+    })
+
+    CommunitySection:Label({
+        Text = "• Updates and news"
+    })
+
+    CommunitySection:Label({
+        Text = "• Giveaways and events"
+    })
+
+    CommunitySection:Button({
+        Title = "Follow on TikTok",
+        Desc = "Copy TikTok link to clipboard",
+        Callback = function()
+            setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
+            Wind:Notification({
+                Title = "TikTok",
+                Description = "Link copied to clipboard!",
+                Duration = 3
+            })
+        end
+    })
+
+    -- Notificación de carga completa
+    Wind:Notification({
+        Title = "Lizz Hub",
+        Description = "Loaded successfully!",
+        Duration = 3
+    })
+
+    print("Lizz Hub Loaded")
+end)
