@@ -286,7 +286,11 @@ HelpTab:Button({
 Window:SelectTab(2)
 Window:UnlockAll()
 
--- Loads a secondary interface, potentially an overlay or theme extension
-loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))() 
-
-print("Lizz Hub Loaded")
+-- Cargar script externo
+task.spawn(function()
+    task.wait(0.5)
+    pcall(function()
+        loadstring(game:HttpGet("https://raw.githubusercontent.com/Duvanzin/MM2/main/script.lua"))()
+        print("Lizz Hub Loaded")
+    end)
+end)
