@@ -24,7 +24,8 @@ local Window = Rayfield:CreateWindow({
    Discord = {
       Enabled = false
    },
-   KeySystem = false
+   KeySystem = false,
+   Theme = "DarkBlue" -- Tema más cercano a morado en Rayfield
 })
 
 -- Notify
