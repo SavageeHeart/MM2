@@ -8,179 +8,176 @@ if not game:IsLoaded() then game.Loaded:Wait() end
 local Players = game:GetService("Players")
 local LocalPlayer = Players.LocalPlayer
 
--- Load Rayfield (funciona perfecto para minimizar)
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+-- Load Orion Library (moderna y hermosa)
+local OrionLib = loadstring(game:HttpGet(('https://raw.githubusercontent.com/shlexware/Orion/main/source')))()
 
 -- Create Window
-local Window = Rayfield:CreateWindow({
-   Name = "Lizz Hub",
-   LoadingTitle = "Lizz Hub",
-   LoadingSubtitle = "Loading",
-   ConfigurationSaving = {
-      Enabled = false
-   },
-   Discord = {
-      Enabled = false
-   },
-   KeySystem = false,
-   Theme = "DarkBlue"
+local Window = OrionLib:MakeWindow({
+    Name = "Lizz Hub",
+    HidePremium = true,
+    SaveConfig = false,
+    IntroEnabled = false,
+    Icon = "rbxassetid://4483345998"
 })
 
--- Ocultar el texto TAB y detectar minimizado
-task.spawn(function()
-   task.wait(0.5)
-   pcall(function()
-      local gui = game:GetService("CoreGui"):FindFirstChild("Rayfield")
-      if gui then
-         for _, v in pairs(gui:GetDescendants()) do
-            if v:IsA("TextLabel") and v.Text == "TAB" then
-               v.Visible = false
-            end
-         end
-      end
-   end)
-   
-   -- Detectar cuando se minimiza el panel
-   while task.wait(0.1) do
-      pcall(function()
-         local rayfieldGui = game:GetService("CoreGui"):FindFirstChild("Rayfield")
-         if rayfieldGui then
-            local main = rayfieldGui:FindFirstChild("Main")
-            if main then
-               if main.Visible == false then
-                  FloatingGui.Enabled = true
-               else
-                  FloatingGui.Enabled = false
-               end
-            end
-         end
-      end)
-   end
-end)
-
--- Función para maximizar cuando presionas el botón flotante
-FloatingButton.MouseButton1Click:Connect(function()
-   pcall(function()
-      local rayfieldGui = game:GetService("CoreGui"):FindFirstChild("Rayfield")
-      if rayfieldGui then
-         local main = rayfieldGui:FindFirstChild("Main")
-         if main then
-            main.Visible = true
-            FloatingGui.Enabled = false
-            Rayfield:Notify({
-               Title = "Lizz Hub",
-               Content = "Panel opened",
-               Duration = 2
-            })
-         end
-      end
-   end)
-end)
-
 -- Notificación
-Rayfield:Notify({
-   Title = "Lizz Hub",
-   Content = "Loaded successfully",
-   Duration = 3,
-   Image = "heart"
+OrionLib:MakeNotification({
+    Name = "Lizz Hub",
+    Content = "Loaded successfully",
+    Image = "rbxassetid://4483345998",
+    Time = 3
 })
 
 -- HOME TAB
-local HomeTab = Window:CreateTab("Home", "home")
-local HomeSection = HomeTab:CreateSection("Welcome to Lizz Hub")
+local HomeTab = Window:MakeTab({
+    Name = "Home",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
-HomeTab:CreateParagraph({Title = "Lizz Hub", Content = "This Universal Script Hub provides safe, stable, and optimized scripts for multiple popular Roblox games.\n\nTikTok: SavageeHeart"})
+local HomeSection = HomeTab:AddSection({
+    Name = "Welcome to Lizz Hub"
+})
 
-HomeTab:CreateParagraph({Title = "User Info", Content = "Current user: " .. LocalPlayer.Name .. "\nStatus: Connected"})
+HomeTab:AddParagraph("Lizz Hub", "This Universal Script Hub provides safe, stable, and optimized scripts for multiple popular Roblox games.\n\nTikTok: SavageeHeart")
 
-HomeTab:CreateButton({
-   Name = "Follow on TikTok",
-   Callback = function()
-      setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-      Rayfield:Notify({
-         Title = "TikTok",
-         Content = "Link copied to clipboard",
-         Duration = 3
-      })
-   end,
+HomeTab:AddParagraph("User Info", "Current user: " .. LocalPlayer.Name .. "\nStatus: Connected")
+
+HomeTab:AddButton({
+    Name = "Follow on TikTok",
+    Callback = function()
+        setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
+        OrionLib:MakeNotification({
+            Name = "TikTok",
+            Content = "Link copied to clipboard!",
+            Time = 3
+        })
+    end    
 })
 
 -- MM2 TAB
-local MM2Tab = Window:CreateTab("MM2", "swords")
-local MM2Section = MM2Tab:CreateSection("Murder Mystery 2")
-
-MM2Tab:CreateButton({
-   Name = "Capybara Hub",
-   Callback = function()
-      Rayfield:Notify({Title = "Loading", Content = "Loading Capybara Hub", Duration = 2})
-      task.spawn(function()
-         task.wait(0.5)
-         loadstring(game:HttpGet("https://pastebin.com/raw/3Pvr5Pfy"))()
-      end)
-   end,
+local MM2Tab = Window:MakeTab({
+    Name = "MM2",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
 
-MM2Tab:CreateButton({
-   Name = "Overdrive Hub",
-   Callback = function()
-      Rayfield:Notify({Title = "Loading", Content = "Loading Overdrive Hub", Duration = 2})
-      task.spawn(function()
-         task.wait(0.5)
-         loadstring(game:HttpGet("https://api.overdrivehub.xyz/v1/auth"))()
-      end)
-   end,
+local MM2Section = MM2Tab:AddSection({
+    Name = "Murder Mystery 2"
+})
+
+MM2Tab:AddButton({
+    Name = "Capybara Hub",
+    Callback = function()
+        OrionLib:MakeNotification({
+            Name = "Loading",
+            Content = "Loading Capybara Hub...",
+            Time = 2
+        })
+        task.spawn(function()
+            task.wait(0.5)
+            loadstring(game:HttpGet("https://pastebin.com/raw/3Pvr5Pfy"))()
+        end)
+    end    
+})
+
+MM2Tab:AddButton({
+    Name = "Overdrive Hub",
+    Callback = function()
+        OrionLib:MakeNotification({
+            Name = "Loading",
+            Content = "Loading Overdrive Hub...",
+            Time = 2
+        })
+        task.spawn(function()
+            task.wait(0.5)
+            loadstring(game:HttpGet("https://api.overdrivehub.xyz/v1/auth"))()
+        end)
+    end    
 })
 
 -- GARDEN TAB
-local GardenTab = Window:CreateTab("Garden", "sprout")
-local GardenSection = GardenTab:CreateSection("Grow a Garden")
+local GardenTab = Window:MakeTab({
+    Name = "Garden",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
-GardenTab:CreateButton({
-   Name = "Soluna Script",
-   Callback = function()
-      Rayfield:Notify({Title = "Loading", Content = "Loading Soluna Script", Duration = 2})
-      task.spawn(function()
-         task.wait(0.5)
-         loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
-      end)
-   end,
+local GardenSection = GardenTab:AddSection({
+    Name = "Grow a Garden"
+})
+
+GardenTab:AddButton({
+    Name = "Soluna Script",
+    Callback = function()
+        OrionLib:MakeNotification({
+            Name = "Loading",
+            Content = "Loading Soluna Script...",
+            Time = 2
+        })
+        task.spawn(function()
+            task.wait(0.5)
+            loadstring(game:HttpGet("https://soluna-script.vercel.app/grow-a-garden.lua"))()
+        end)
+    end    
 })
 
 -- FORGE TAB
-local ForgeTab = Window:CreateTab("Forge", "pickaxe")
-local ForgeSection = ForgeTab:CreateSection("The Forge")
+local ForgeTab = Window:MakeTab({
+    Name = "Forge",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
+})
 
-ForgeTab:CreateButton({
-   Name = "Chiyo Forge",
-   Callback = function()
-      Rayfield:Notify({Title = "Loading", Content = "Loading Chiyo Forge", Duration = 2})
-      task.spawn(function()
-         task.wait(0.5)
-         loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
-      end)
-   end,
+local ForgeSection = ForgeTab:AddSection({
+    Name = "The Forge"
+})
+
+ForgeTab:AddButton({
+    Name = "Chiyo Forge",
+    Callback = function()
+        OrionLib:MakeNotification({
+            Name = "Loading",
+            Content = "Loading Chiyo Forge...",
+            Time = 2
+        })
+        task.spawn(function()
+            task.wait(0.5)
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/kaisenlmao/loader/refs/heads/main/chiyo.lua"))()
+        end)
+    end    
 })
 
 -- HELP TAB
-local HelpTab = Window:CreateTab("Help", "heart")
-local HelpSection = HelpTab:CreateSection("Support & Help")
-
-HelpTab:CreateParagraph({Title = "Need Help?", Content = "If you experience issues with any script or the hub, make sure:\n\n• Your exploit is up to date\n• You run the hub only once per session\n\nMost issues happen when a game gets updated."})
-
-HelpTab:CreateParagraph({Title = "Support & Suggestions", Content = "Want us to add more games or scripts?\n\n• Report broken scripts\n• Share your own scripts\n\nYour feedback helps improve Lizz Hub."})
-
-HelpTab:CreateParagraph({Title = "Community", Content = "Follow us on TikTok for:\n• Updates and news\n• Giveaways and events"})
-
-HelpTab:CreateButton({
-   Name = "Follow on TikTok",
-   Callback = function()
-      setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
-      Rayfield:Notify({
-         Title = "TikTok",
-         Content = "Link copied to clipboard",
-         Duration = 3
-      })
-   end,
+local HelpTab = Window:MakeTab({
+    Name = "Help",
+    Icon = "rbxassetid://4483345998",
+    PremiumOnly = false
 })
+
+local HelpSection = HelpTab:AddSection({
+    Name = "Support & Help"
+})
+
+HelpTab:AddParagraph("Need Help?", "If you experience issues with any script or the hub, make sure:\n\n• Your exploit is up to date\n• You run the hub only once per session\n\nMost issues happen when a game gets updated.")
+
+HelpTab:AddParagraph("Support & Suggestions", "Want us to add more games or scripts?\n\n• Report broken scripts\n• Share your own scripts\n\nYour feedback helps improve Lizz Hub.")
+
+HelpTab:AddParagraph("Community", "Follow us on TikTok for:\n• Updates and news\n• Giveaways and events")
+
+HelpTab:AddButton({
+    Name = "Follow on TikTok",
+    Callback = function()
+        setclipboard("https://www.tiktok.com/@savageeheart?_r=1&_t=ZP-92acisSYJzS")
+        OrionLib:MakeNotification({
+            Name = "TikTok",
+            Content = "Link copied to clipboard!",
+            Time = 3
+        })
+    end    
+})
+
+-- Init
+OrionLib:Init()
 
 print("Lizz Hub Loaded")
