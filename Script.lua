@@ -143,7 +143,6 @@ end
 -- ================= TABS ================= --
 local HomeTab      = Window:Tab({ Icon="home", Title="Home" })
 local MM2Tab       = Window:Tab({ Icon="swords", Title="MM2" })
-local BrainrotTab  = Window:Tab({ Icon="brain", Title="Brainrot" })
 local GardenTab    = Window:Tab({ Icon="sprout", Title="Garden" })
 local PlantsTab    = Window:Tab({ Icon="leaf", Title="Plants" })
 local ForgeTab     = Window:Tab({ Icon="pickaxe", Title="Forge" })
@@ -161,7 +160,8 @@ HomeTab:Paragraph({
         "Main features:\n" ..
         "Verified and tested scripts\n" ..
         "Frequent updates\n" ..
-        "Compatible with most executors"
+        "Compatible with most executors\n\n" ..
+        "TikTok: SavageeHeart"
 })
 
 HomeTab:Paragraph({
